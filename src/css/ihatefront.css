@@ -836,8 +836,11 @@ pre {
 }
 
 .ih-alert {
+  --ih-alert-accent: var(--ih-primary);
+  --ih-alert-icon-bg: var(--ih-primary-soft);
+  --ih-alert-icon-color: #0550ae;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--ih-space-3);
   padding: var(--ih-space-3) var(--ih-space-4);
   border: 1px solid var(--ih-alert-border, var(--ih-border));
@@ -856,27 +859,92 @@ pre {
 }
 
 .ih-alert--primary {
+  --ih-alert-accent: var(--ih-primary);
   --ih-alert-border: var(--ih-primary-border);
+  --ih-alert-icon-bg: var(--ih-primary-soft);
+  --ih-alert-icon-color: #0550ae;
   --ih-alert-bg: var(--ih-surface);
   --ih-alert-color: var(--ih-text);
 }
 
 .ih-alert--success {
+  --ih-alert-accent: var(--ih-success);
   --ih-alert-border: var(--ih-success-border);
+  --ih-alert-icon-bg: var(--ih-success-soft);
+  --ih-alert-icon-color: #116329;
   --ih-alert-bg: var(--ih-surface);
   --ih-alert-color: var(--ih-text);
 }
 
 .ih-alert--warning {
+  --ih-alert-accent: var(--ih-warning);
   --ih-alert-border: var(--ih-warning-border);
+  --ih-alert-icon-bg: var(--ih-warning-soft);
+  --ih-alert-icon-color: #7d4e00;
   --ih-alert-bg: var(--ih-surface);
   --ih-alert-color: var(--ih-text);
 }
 
 .ih-alert--danger {
+  --ih-alert-accent: var(--ih-danger);
   --ih-alert-border: var(--ih-danger-border);
+  --ih-alert-icon-bg: var(--ih-danger-soft);
+  --ih-alert-icon-color: #a40e26;
   --ih-alert-bg: var(--ih-surface);
   --ih-alert-color: var(--ih-text);
+}
+
+.ih-alert--filled {
+  --ih-alert-bg: var(--ih-alert-accent);
+  --ih-alert-border: var(--ih-alert-accent);
+  --ih-alert-color: #ffffff;
+  --ih-alert-icon-bg: rgba(255, 255, 255, 0.18);
+  --ih-alert-icon-color: #ffffff;
+}
+
+.ih-alert--soft {
+  --ih-alert-bg: var(--ih-alert-icon-bg);
+}
+
+.ih-alert__icon {
+  display: inline-grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.0625rem;
+  border-radius: var(--ih-radius-pill);
+  background: var(--ih-alert-icon-bg);
+  color: var(--ih-alert-icon-color);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.ih-alert__content {
+  display: grid;
+  min-width: 0;
+  gap: 0.125rem;
+}
+
+.ih-alert__title {
+  color: inherit;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.ih-alert__message {
+  margin: 0;
+  color: inherit;
+  opacity: 0.78;
+}
+
+.ih-alert__action {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  align-self: center;
+  margin-left: auto;
 }
 
 .ih-badge,

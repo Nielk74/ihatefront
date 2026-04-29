@@ -68,9 +68,10 @@
               </div>
             </div>
             <div class="ih-alert ih-alert--primary">
-              <div>
-                <strong>Documentation style</strong>
-                <p class="ih-helper">Every component below shows the live result first, then copy-paste markup, then usage notes.</p>
+              <span class="ih-alert__icon">i</span>
+              <div class="ih-alert__content">
+                <strong class="ih-alert__title">Documentation style</strong>
+                <p class="ih-alert__message">Every component below shows the live result first, then copy-paste markup, then usage notes.</p>
               </div>
             </div>
           </div>
@@ -220,9 +221,10 @@
 &lt;button class="ih-btn ih-icon-btn ih-btn--outlined ih-btn--neutral" aria-label="Settings"&gt;...&lt;/button&gt;</code></pre>
             </div>
             <div class="ih-alert ih-alert--primary">
-              <div>
-                <strong>Accessibility</strong>
-                <p class="ih-helper">Use `button` for actions and `a.ih-btn` for navigation. Icon-only buttons need an `aria-label`.</p>
+              <span class="ih-alert__icon">i</span>
+              <div class="ih-alert__content">
+                <strong class="ih-alert__title">Accessibility</strong>
+                <p class="ih-alert__message">Use `button` for actions and `a.ih-btn` for navigation. Icon-only buttons need an `aria-label`.</p>
               </div>
             </div>
           </div>
@@ -316,14 +318,33 @@
   &lt;span class="ih-input-addon"&gt;/main&lt;/span&gt;
 &lt;/div&gt;
 
+&lt;label class="ih-field" data-ih-error&gt;
+  &lt;span class="ih-label"&gt;Release note&lt;/span&gt;
+  &lt;textarea class="ih-textarea" placeholder="Describe this deploy"&gt;&lt;/textarea&gt;
+  &lt;span class="ih-helper"&gt;Required before shipping.&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;label class="ih-control-row"&gt;
+  &lt;input class="ih-check" type="checkbox" checked&gt;
+  Include migrations
+&lt;/label&gt;
+
+&lt;label class="ih-control-row"&gt;
+  &lt;input class="ih-radio" type="radio" name="deploy-mode" checked&gt;
+  Rolling deploy
+&lt;/label&gt;
+
 &lt;label class="ih-control-row"&gt;
   &lt;input class="ih-switch" type="checkbox" checked&gt;
   Auto rollback
-&lt;/label&gt;</code></pre>
+&lt;/label&gt;
+
+&lt;input class="ih-slider" type="range" value="62" aria-label="Rollout percent"&gt;</code></pre>
             <div class="ih-alert ih-alert--warning">
-              <div>
-                <strong>Validation</strong>
-                <p class="ih-helper">Use native validation attributes and add `data-ih-error` to the field wrapper when you need the danger border.</p>
+              <span class="ih-alert__icon">!</span>
+              <div class="ih-alert__content">
+                <strong class="ih-alert__title">Validation</strong>
+                <p class="ih-alert__message">Use native validation attributes and add `data-ih-error` to the field wrapper when you need the danger border.</p>
               </div>
             </div>
           </div>
@@ -411,31 +432,54 @@
             <div>
               <p class="ih-kicker">Feedback</p>
               <h2 class="ih-heading">Notifications</h2>
-              <p class="ih-subtitle">Alerts and snackbars communicate brief, non-intrusive state changes. They are white surfaces with text and optional actions, not icon-led banners.</p>
+              <p class="ih-subtitle">Alerts communicate brief, non-intrusive state changes. They use severity icons, titles, messages, and optional right-aligned actions.</p>
             </div>
             <div class="ih-stack">
               <div class="ih-alert ih-alert--success">
-                <div>
-                  <strong>Build passed</strong>
-                  <p class="ih-helper">The release artifacts were generated from source.</p>
+                <span class="ih-alert__icon">✓</span>
+                <div class="ih-alert__content">
+                  <strong class="ih-alert__title">Build passed</strong>
+                  <p class="ih-alert__message">The release artifacts were generated from source.</p>
                 </div>
                 <button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-dismiss=".ih-alert" aria-label="Dismiss">x</button>
               </div>
               <div class="ih-alert ih-alert--danger">
-                <div>
-                  <strong>Deployment blocked</strong>
-                  <p class="ih-helper">One required check is still failing.</p>
+                <span class="ih-alert__icon">!</span>
+                <div class="ih-alert__content">
+                  <strong class="ih-alert__title">Deployment blocked</strong>
+                  <p class="ih-alert__message">One required check is still failing.</p>
                 </div>
-                <button class="ih-btn ih-btn--plain ih-btn--danger ih-btn--sm">Review</button>
+                <div class="ih-alert__action">
+                  <button class="ih-btn ih-btn--plain ih-btn--danger ih-btn--sm">Review</button>
+                </div>
+              </div>
+              <div class="ih-alert ih-alert--filled ih-alert--primary">
+                <span class="ih-alert__icon">i</span>
+                <div class="ih-alert__content">
+                  <strong class="ih-alert__title">Filled alert</strong>
+                  <p class="ih-alert__message">Use filled alerts sparingly for high-emphasis feedback.</p>
+                </div>
               </div>
             </div>
             <pre class="ih-code"><code>&lt;div class="ih-alert ih-alert--success"&gt;
-  &lt;div&gt;
-    &lt;strong&gt;Build passed&lt;/strong&gt;
-    &lt;p class="ih-helper"&gt;The release artifacts were generated.&lt;/p&gt;
+  &lt;span class="ih-alert__icon"&gt;✓&lt;/span&gt;
+  &lt;div class="ih-alert__content"&gt;
+    &lt;strong class="ih-alert__title"&gt;Build passed&lt;/strong&gt;
+    &lt;p class="ih-alert__message"&gt;The release artifacts were generated.&lt;/p&gt;
   &lt;/div&gt;
   &lt;button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral"
     data-ih-dismiss=".ih-alert" aria-label="Dismiss"&gt;x&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class="ih-alert ih-alert--danger"&gt;
+  &lt;span class="ih-alert__icon"&gt;!&lt;/span&gt;
+  &lt;div class="ih-alert__content"&gt;
+    &lt;strong class="ih-alert__title"&gt;Deployment blocked&lt;/strong&gt;
+    &lt;p class="ih-alert__message"&gt;One required check is still failing.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="ih-alert__action"&gt;
+    &lt;button class="ih-btn ih-btn--plain ih-btn--danger ih-btn--sm"&gt;Review&lt;/button&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
             <div class="ih-cluster">
               <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-toast-target="#docs-toast">Show snackbar</button>
@@ -906,9 +950,10 @@
   &lt;/tr&gt;
 &lt;/table&gt;</code></pre>
             <div class="ih-alert ih-alert--warning">
-              <div>
-                <strong>Public docs hygiene</strong>
-                <p class="ih-helper">Do not publish private hostnames, database names, internal project names, or fake production-looking data.</p>
+              <span class="ih-alert__icon">!</span>
+              <div class="ih-alert__content">
+                <strong class="ih-alert__title">Public docs hygiene</strong>
+                <p class="ih-alert__message">Do not publish private hostnames, database names, internal project names, or fake production-looking data.</p>
               </div>
             </div>
           </div>
@@ -927,9 +972,10 @@
             <input class="ih-input" value="v0.1.1">
           </label>
           <div class="ih-alert ih-alert--warning">
-            <div>
-              <strong>Production target</strong>
-              <p class="ih-helper">This action will notify maintainers and publish generated assets.</p>
+            <span class="ih-alert__icon">!</span>
+            <div class="ih-alert__content">
+              <strong class="ih-alert__title">Production target</strong>
+              <p class="ih-alert__message">This action will notify maintainers and publish generated assets.</p>
             </div>
           </div>
         </div>
