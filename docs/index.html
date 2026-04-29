@@ -25,7 +25,7 @@
             <a href="#forms">Forms</a>
             <a href="#autocomplete">Autocomplete</a>
             <a href="#card-sheet">Card and sheet</a>
-            <a href="#alert">Alert</a>
+            <a href="#alert">Notifications</a>
             <a href="#badge-chip-avatar">Badge, chip, avatar</a>
             <a href="#status">Status</a>
             <a href="#timeline">Timeline</a>
@@ -68,12 +68,10 @@
               </div>
             </div>
             <div class="ih-alert ih-alert--primary">
-              <span class="ih-alert__icon">i</span>
               <div>
                 <strong>Documentation style</strong>
                 <p class="ih-helper">Every component below shows the live result first, then copy-paste markup, then usage notes.</p>
               </div>
-              <span></span>
             </div>
           </div>
         </section>
@@ -192,7 +190,7 @@
             <div>
               <p class="ih-kicker">Inputs</p>
               <h2 class="ih-heading">Button</h2>
-              <p class="ih-subtitle">Buttons are action controls. Combine `.ih-btn` with one variant, one color, and optionally one size.</p>
+              <p class="ih-subtitle">Buttons are action controls. Combine `.ih-btn` with one variant, one color, and optionally one size. Motion uses elevation changes and ripple-like press feedback.</p>
             </div>
             <div class="ih-stack">
               <h3 class="ih-heading">Variants</h3>
@@ -222,12 +220,10 @@
 &lt;button class="ih-btn ih-icon-btn ih-btn--outlined ih-btn--neutral" aria-label="Settings"&gt;...&lt;/button&gt;</code></pre>
             </div>
             <div class="ih-alert ih-alert--primary">
-              <span class="ih-alert__icon">i</span>
               <div>
                 <strong>Accessibility</strong>
                 <p class="ih-helper">Use `button` for actions and `a.ih-btn` for navigation. Icon-only buttons need an `aria-label`.</p>
               </div>
-              <span></span>
             </div>
           </div>
         </section>
@@ -276,8 +272,8 @@
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Forms</p>
-              <h2 class="ih-heading">Inputs, selects, textareas, checks, radios, switches, and sliders</h2>
-              <p class="ih-subtitle">Wrap every field in `.ih-field`, use visible labels, and keep helper text close to the control. Inputs, selects, checks, radios, switches, and sliders are fully styled rather than relying on browser-native defaults.</p>
+              <h2 class="ih-heading">Inputs, textareas, checks, radios, switches, sliders, and autocomplete</h2>
+              <p class="ih-subtitle">Wrap every field in `.ih-field`, use visible labels, and keep helper text close to the control. Autocomplete is the framework's option picker.</p>
             </div>
             <div class="ih-grid">
               <label class="ih-field">
@@ -294,14 +290,6 @@
                 </div>
                 <span class="ih-helper">Use `.ih-input-group` for compact prefixes and suffixes.</span>
               </div>
-              <label class="ih-field">
-                <span class="ih-label">Environment</span>
-                <select class="ih-select">
-                  <option>Production</option>
-                  <option>Preview</option>
-                  <option>Development</option>
-                </select>
-              </label>
               <label class="ih-field" data-ih-error>
                 <span class="ih-label">Release note</span>
                 <textarea class="ih-textarea" placeholder="Describe this deploy"></textarea>
@@ -333,12 +321,10 @@
   Auto rollback
 &lt;/label&gt;</code></pre>
             <div class="ih-alert ih-alert--warning">
-              <span class="ih-alert__icon">!</span>
               <div>
                 <strong>Validation</strong>
                 <p class="ih-helper">Use native validation attributes and add `data-ih-error` to the field wrapper when you need the danger border.</p>
               </div>
-              <span></span>
             </div>
           </div>
         </section>
@@ -348,7 +334,7 @@
             <div>
               <p class="ih-kicker">Forms</p>
               <h2 class="ih-heading">Autocomplete</h2>
-              <p class="ih-subtitle">Autocomplete is a text input enhanced with a filtered option list. The JS plugin wires focus, filtering, click selection, and Escape close behavior.</p>
+              <p class="ih-subtitle">Autocomplete is a text input enhanced with a filtered option list. The JS plugin wires focus, filtering, arrow-key navigation, Enter selection, click selection, and Escape close behavior.</p>
             </div>
             <div class="ih-field" style="max-width: 28rem;">
               <span class="ih-label">Component</span>
@@ -362,7 +348,7 @@
                   <li class="ih-autocomplete__option" data-value="Status table">Status table</li>
                 </ul>
               </div>
-              <span class="ih-helper">Type to filter, then click an option.</span>
+              <span class="ih-helper">Type to filter, use arrow keys to move, then press Enter or click an option.</span>
             </div>
             <pre class="ih-code"><code>&lt;div class="ih-field"&gt;
   &lt;span class="ih-label"&gt;Component&lt;/span&gt;
@@ -377,11 +363,11 @@
             <div class="ih-grid">
               <div class="ih-sheet ih-stack ih-stack--sm">
                 <strong>When to use</strong>
-                <p class="ih-helper">Use autocomplete for short option sets where search is faster than scanning a select.</p>
+                <p class="ih-helper">Use autocomplete for option picking, especially when users know what they are looking for.</p>
               </div>
               <div class="ih-sheet ih-stack ih-stack--sm">
-                <strong>Current limitation</strong>
-                <p class="ih-helper">Keyboard option navigation is not implemented yet. Use native select for critical keyboard-heavy flows until that lands.</p>
+                <strong>Keyboard</strong>
+                <p class="ih-helper">Arrow keys move through visible options, Enter chooses the active option, and Escape closes the list.</p>
               </div>
             </div>
           </div>
@@ -424,12 +410,11 @@
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Feedback</p>
-              <h2 class="ih-heading">Alert</h2>
-              <p class="ih-subtitle">Alerts communicate page-level state. Use dismiss buttons only for non-critical alerts.</p>
+              <h2 class="ih-heading">Notifications</h2>
+              <p class="ih-subtitle">Alerts and snackbars communicate brief, non-intrusive state changes. They are white surfaces with text and optional actions, not icon-led banners.</p>
             </div>
             <div class="ih-stack">
               <div class="ih-alert ih-alert--success">
-                <span class="ih-alert__icon">OK</span>
                 <div>
                   <strong>Build passed</strong>
                   <p class="ih-helper">The release artifacts were generated from source.</p>
@@ -437,16 +422,14 @@
                 <button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-dismiss=".ih-alert" aria-label="Dismiss">x</button>
               </div>
               <div class="ih-alert ih-alert--danger">
-                <span class="ih-alert__icon">!</span>
                 <div>
                   <strong>Deployment blocked</strong>
                   <p class="ih-helper">One required check is still failing.</p>
                 </div>
-                <span></span>
+                <button class="ih-btn ih-btn--plain ih-btn--danger ih-btn--sm">Review</button>
               </div>
             </div>
             <pre class="ih-code"><code>&lt;div class="ih-alert ih-alert--success"&gt;
-  &lt;span class="ih-alert__icon"&gt;OK&lt;/span&gt;
   &lt;div&gt;
     &lt;strong&gt;Build passed&lt;/strong&gt;
     &lt;p class="ih-helper"&gt;The release artifacts were generated.&lt;/p&gt;
@@ -454,6 +437,9 @@
   &lt;button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral"
     data-ih-dismiss=".ih-alert" aria-label="Dismiss"&gt;x&lt;/button&gt;
 &lt;/div&gt;</code></pre>
+            <div class="ih-cluster">
+              <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-toast-target="#docs-toast">Show snackbar</button>
+            </div>
           </div>
         </section>
 
@@ -801,17 +787,26 @@
             <div>
               <p class="ih-kicker">Surfaces</p>
               <h2 class="ih-heading">Modal and drawer</h2>
-              <p class="ih-subtitle">Use modals for blocking decisions and drawers for secondary navigation or settings.</p>
+              <p class="ih-subtitle">Use modals for blocking decisions and drawers for secondary navigation or settings. Modals follow a backdrop, dialog, close, title, content, and actions anatomy.</p>
             </div>
             <div class="ih-cluster">
               <button class="ih-btn ih-btn--solid ih-btn--primary" data-ih-modal-target="#docs-modal">Open modal</button>
+              <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-target="#docs-modal-lg">Open large modal</button>
               <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-drawer-target="#docs-drawer">Open drawer</button>
             </div>
             <pre class="ih-code"><code>&lt;button class="ih-btn ih-btn--solid ih-btn--primary" data-ih-modal-target="#release-modal"&gt;Open modal&lt;/button&gt;
 
-&lt;div class="ih-modal" id="release-modal" aria-hidden="true" role="dialog" aria-modal="true"&gt;
-  &lt;div class="ih-modal__dialog"&gt;
-    &lt;button data-ih-modal-close&gt;Close&lt;/button&gt;
+&lt;div class="ih-modal" id="release-modal" aria-hidden="true" role="dialog" aria-modal="true"
+  aria-labelledby="release-modal-title" aria-describedby="release-modal-description"&gt;
+  &lt;div class="ih-modal__dialog ih-modal__dialog--sm"&gt;
+    &lt;button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral"
+      data-ih-modal-close aria-label="Close"&gt;x&lt;/button&gt;
+    &lt;h2 class="ih-modal__title" id="release-modal-title"&gt;Create release&lt;/h2&gt;
+    &lt;p class="ih-modal__description" id="release-modal-description"&gt;Confirm the target before continuing.&lt;/p&gt;
+    &lt;div class="ih-modal__actions"&gt;
+      &lt;button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-close&gt;Cancel&lt;/button&gt;
+      &lt;button class="ih-btn ih-btn--solid ih-btn--primary"&gt;Create&lt;/button&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
           </div>
@@ -911,30 +906,67 @@
   &lt;/tr&gt;
 &lt;/table&gt;</code></pre>
             <div class="ih-alert ih-alert--warning">
-              <span class="ih-alert__icon">!</span>
               <div>
                 <strong>Public docs hygiene</strong>
                 <p class="ih-helper">Do not publish private hostnames, database names, internal project names, or fake production-looking data.</p>
               </div>
-              <span></span>
             </div>
           </div>
         </section>
       </main>
     </div>
 
-    <div class="ih-modal" id="docs-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="docs-modal-title">
-      <div class="ih-modal__dialog">
-        <div class="ih-stack">
-          <div class="ih-card__header">
-            <h2 class="ih-heading" id="docs-modal-title">Modal dialog</h2>
-            <button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">x</button>
+    <div class="ih-modal" id="docs-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="docs-modal-title" aria-describedby="docs-modal-description">
+      <div class="ih-modal__dialog ih-modal__dialog--sm">
+        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">x</button>
+        <h2 class="ih-modal__title" id="docs-modal-title">Create release</h2>
+        <p class="ih-modal__description" id="docs-modal-description">Confirm the target environment before the release starts.</p>
+        <div class="ih-modal__content">
+          <label class="ih-field">
+            <span class="ih-label">Release name</span>
+            <input class="ih-input" value="v0.1.1">
+          </label>
+          <div class="ih-alert ih-alert--warning">
+            <div>
+              <strong>Production target</strong>
+              <p class="ih-helper">This action will notify maintainers and publish generated assets.</p>
+            </div>
           </div>
-          <p class="ih-subtitle">Use modals for blocking decisions, not routine page content.</p>
-          <div class="ih-cluster">
-            <button class="ih-btn ih-btn--solid ih-btn--primary">Confirm</button>
-            <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-close>Cancel</button>
+        </div>
+        <div class="ih-modal__actions">
+          <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-close>Cancel</button>
+          <button class="ih-btn ih-btn--solid ih-btn--primary">Create</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ih-modal ih-modal--top" id="docs-modal-lg" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="docs-modal-lg-title">
+      <div class="ih-modal__dialog ih-modal__dialog--lg">
+        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">x</button>
+        <h2 class="ih-modal__title" id="docs-modal-lg-title">Project settings</h2>
+        <div class="ih-modal__content">
+          <p class="ih-modal__description">Larger dialogs can sit near the top of the viewport and contain structured forms.</p>
+          <div class="ih-grid">
+            <label class="ih-field">
+              <span class="ih-label">Project name</span>
+              <input class="ih-input" value="ihatefront">
+            </label>
+            <label class="ih-field">
+              <span class="ih-label">Visibility</span>
+              <div class="ih-autocomplete" data-ih-autocomplete>
+                <input class="ih-input" data-ih-autocomplete-input aria-label="Choose visibility" value="Public">
+                <ul class="ih-autocomplete__list" data-ih-autocomplete-list>
+                  <li class="ih-autocomplete__option" data-value="Public">Public</li>
+                  <li class="ih-autocomplete__option" data-value="Private">Private</li>
+                  <li class="ih-autocomplete__option" data-value="Internal">Internal</li>
+                </ul>
+              </div>
+            </label>
           </div>
+        </div>
+        <div class="ih-modal__actions">
+          <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-close>Cancel</button>
+          <button class="ih-btn ih-btn--solid ih-btn--primary">Save settings</button>
         </div>
       </div>
     </div>

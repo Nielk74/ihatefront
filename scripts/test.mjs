@@ -25,7 +25,7 @@ if (!docs.includes('assets/ihatefront.css') || !docs.includes('assets/ihatefront
   throw new Error('docs/index.html must reference GitHub Pages assets.');
 }
 
-for (const selector of ['ih-btn', 'ih-card', 'ih-modal', 'ih-tabs', 'ih-autocomplete', 'ih-status-table', 'ih-input-group', 'ih-timeline']) {
+for (const selector of ['ih-btn', 'ih-card', 'ih-modal', 'ih-modal__dialog', 'ih-modal__close', 'ih-tabs', 'ih-autocomplete', 'ih-status-table', 'ih-input-group', 'ih-timeline', 'ih-snackbar']) {
   if (!css.includes(selector)) {
     throw new Error(`Missing component selector: ${selector}`);
   }

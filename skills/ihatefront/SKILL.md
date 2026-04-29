@@ -20,7 +20,7 @@ Use this skill when building or reviewing UI that uses the `ihatefront` framewor
 ## Component Guidance
 
 - Buttons: combine `.ih-btn` with one variant class and one color class, such as `.ih-btn--solid.ih-btn--primary`.
-- Forms: wrap fields in `.ih-field`, use `.ih-label`, then `.ih-input`, `.ih-select`, or `.ih-textarea`, and finish with `.ih-helper` when helpful.
+- Forms: wrap fields in `.ih-field`, use `.ih-label`, then `.ih-input` or `.ih-textarea`, and finish with `.ih-helper` when helpful. Use autocomplete as the option picker.
 - Input groups: use `.ih-input-group` and `.ih-input-addon` for compact prefixes, suffixes, and filter bars.
 - Tables: wrap tables in `.ih-table-wrap`, use `.ih-table`, and choose `.ih-table--dense` for operational dashboards.
 - Status: use `.ih-status` with explicit text. Add status classes such as `.ih-status--success` and row classes such as `.is-success`.
@@ -34,7 +34,7 @@ Use this skill when building or reviewing UI that uses the `ihatefront` framewor
 - Keep focus states visible. Do not remove the default `:focus-visible` treatment.
 - Tooltips must have a meaningful `data-ih-tooltip` value and must not contain essential-only information.
 - Modals and drawers need obvious close buttons.
-- Use native `input`, `select`, `textarea`, `button`, `table`, `nav`, and heading elements wherever possible.
+- Use native `input`, `textarea`, `button`, `table`, `nav`, and heading elements wherever possible.
 
 ## Dashboard Rewrite Pattern
 

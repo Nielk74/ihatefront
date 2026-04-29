@@ -44,7 +44,7 @@ Foundations: tokens, reboot, typography, links, dividers, aspect ratio, density,
 
 Layout: container, grid, stack, cluster, app shell, sidebar layout, top bar, sheets.
 
-Inputs: button, icon button, button group, toggle group, input, textarea, select, checkbox, radio, switch, slider, autocomplete.
+Inputs: button, icon button, button group, toggle group, input, textarea, checkbox, radio, switch, slider, autocomplete.
 
 Data display: avatar, badge, chip, list, table, status indicator, status legend, timeline, tooltip.
 

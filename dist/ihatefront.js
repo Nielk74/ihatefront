@@ -37,7 +37,7 @@ function openModal(target) {
   if (!modal) return;
   modal.setAttribute(selectors.open, '');
   modal.setAttribute('aria-hidden', 'false');
-  one('[data-ih-modal-close], button, [href], input, select, textarea', modal)?.focus();
+  one('[data-ih-modal-close], button, [href], input, textarea', modal)?.focus();
 }
 
 function initMenus(root = document) {
@@ -107,14 +107,60 @@ function initAccordions(root = document) {
 }
 
 function initAutocomplete(root = document) {
-  all('[data-ih-autocomplete]', root).forEach((box) => {
+  all('[data-ih-autocomplete]', root).forEach((box, boxIndex) => {
     const input = one('[data-ih-autocomplete-input]', box);
     const list = one('[data-ih-autocomplete-list]', box);
     if (!input || !list) return;
 
     const options = all('[data-value]', list);
+    let activeIndex = -1;
+
     input.setAttribute('autocomplete', 'off');
+    input.setAttribute('role', input.getAttribute('role') || 'combobox');
     input.setAttribute('aria-expanded', 'false');
+    input.setAttribute('aria-controls', list.id || `ih-autocomplete-list-${boxIndex + 1}`);
+    list.id = input.getAttribute('aria-controls');
+    list.setAttribute('role', list.getAttribute('role') || 'listbox');
+    options.forEach((option, optionIndex) => {
+      option.id = option.id || `${list.id}-option-${optionIndex + 1}`;
+      option.setAttribute('role', option.getAttribute('role') || 'option');
+    });
+
+    function visibleOptions() {
+      return options.filter((option) => !option.hidden);
+    }
+
+    function clearActive() {
+      activeIndex = -1;
+      options.forEach((option) => {
+        option.removeAttribute(selectors.active);
+        option.setAttribute('aria-selected', 'false');
+      });
+      input.removeAttribute('aria-activedescendant');
+    }
+
+    function setActive(nextIndex) {
+      const visible = visibleOptions();
+      if (!visible.length || nextIndex < 0) {
+        clearActive();
+        return;
+      }
+      activeIndex = nextIndex % visible.length;
+      options.forEach((option) => {
+        const active = visible[activeIndex] === option;
+        option.toggleAttribute(selectors.active, active);
+        option.setAttribute('aria-selected', String(active));
+      });
+      input.setAttribute('aria-activedescendant', visible[activeIndex].id);
+      visible[activeIndex].scrollIntoView({ block: 'nearest' });
+    }
+
+    function choose(option) {
+      input.value = option.dataset.value || option.textContent.trim();
+      list.hidden = true;
+      input.setAttribute('aria-expanded', 'false');
+      clearActive();
+    }
 
     function update() {
       const query = input.value.trim().toLowerCase();
@@ -126,6 +172,7 @@ function initAutocomplete(root = document) {
       });
       list.hidden = visible === 0;
       input.setAttribute('aria-expanded', String(!list.hidden));
+      clearActive();
     }
 
     input.addEventListener('focus', update);
@@ -134,14 +181,27 @@ function initAutocomplete(root = document) {
       if (event.key === 'Escape') {
         list.hidden = true;
         input.setAttribute('aria-expanded', 'false');
+        clearActive();
+        return;
+      }
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (list.hidden) update();
+        const visible = visibleOptions();
+        const nextIndex = event.key === 'ArrowDown'
+          ? (activeIndex < 0 ? 0 : activeIndex + 1)
+          : (activeIndex < 0 ? visible.length - 1 : activeIndex - 1);
+        setActive(nextIndex);
+        return;
+      }
+      if (event.key === 'Enter' && activeIndex >= 0) {
+        event.preventDefault();
+        choose(visibleOptions()[activeIndex]);
       }
     });
     options.forEach((option) => {
-      option.addEventListener('click', () => {
-        input.value = option.dataset.value || option.textContent.trim();
-        list.hidden = true;
-        input.setAttribute('aria-expanded', 'false');
-      });
+      option.addEventListener('pointerenter', () => setActive(visibleOptions().indexOf(option)));
+      option.addEventListener('click', () => choose(option));
     });
     list.hidden = true;
   });
