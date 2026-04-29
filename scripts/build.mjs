@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
+const docsAssets = path.join(root, 'docs/assets');
 
 function banner(kind) {
   return `/*! ihatefront v0.1.0 | MIT License | ${kind} */\n`;
@@ -26,13 +27,16 @@ function minifyJs(source) {
 }
 
 await mkdir(dist, { recursive: true });
+await mkdir(docsAssets, { recursive: true });
 
 const css = await readFile(path.join(root, 'src/css/ihatefront.css'), 'utf8');
 await writeFile(path.join(dist, 'ihatefront.css'), banner('css') + css);
 await writeFile(path.join(dist, 'ihatefront.min.css'), banner('css') + minifyCss(css) + '\n');
+await writeFile(path.join(docsAssets, 'ihatefront.css'), banner('css') + css);
 
 const js = await readFile(path.join(root, 'src/js/ihatefront.js'), 'utf8');
 await writeFile(path.join(dist, 'ihatefront.js'), banner('js') + js);
 await writeFile(path.join(dist, 'ihatefront.min.js'), banner('js') + minifyJs(js) + '\n');
+await writeFile(path.join(docsAssets, 'ihatefront.js'), banner('js') + js);
 
-console.log('Built dist/ihatefront.css and dist/ihatefront.js');
+console.log('Built dist/ and docs/assets/');

@@ -7,6 +7,8 @@ const required = [
   'dist/ihatefront.min.css',
   'dist/ihatefront.js',
   'dist/ihatefront.min.js',
+  'docs/assets/ihatefront.css',
+  'docs/assets/ihatefront.js',
   'docs/index.html',
   'skills/ihatefront/SKILL.md'
 ];
@@ -19,8 +21,8 @@ const docs = await readFile(path.join(root, 'docs/index.html'), 'utf8');
 const css = await readFile(path.join(root, 'dist/ihatefront.css'), 'utf8');
 const gitignore = await readFile(path.join(root, '.gitignore'), 'utf8');
 
-if (!docs.includes('../dist/ihatefront.css') || !docs.includes('../dist/ihatefront.js')) {
-  throw new Error('docs/index.html must reference built dist assets.');
+if (!docs.includes('assets/ihatefront.css') || !docs.includes('assets/ihatefront.js')) {
+  throw new Error('docs/index.html must reference GitHub Pages assets.');
 }
 
 for (const selector of ['ih-btn', 'ih-card', 'ih-modal', 'ih-tabs', 'ih-autocomplete', 'ih-status-table']) {

@@ -70,7 +70,7 @@ npm run dev
 
 ## Docs
 
-Open `docs/index.html` after running `npm run build`, or run:
+Open `docs/index.html` after running `npm run build`, visit the hosted docs at https://nielk74.github.io/ihatefront/, or run:
 
 ```bash
 npm run dev

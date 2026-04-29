@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ihatefront component showcase</title>
-    <link rel="stylesheet" href="../dist/ihatefront.css">
-    <script type="module" src="../dist/ihatefront.js"></script>
+    <title>ihatefront documentation</title>
+    <link rel="stylesheet" href="assets/ihatefront.css">
+    <script type="module" src="assets/ihatefront.js"></script>
   </head>
   <body>
     <div class="ih-docs-layout">
@@ -13,51 +13,80 @@
         <div class="ih-stack ih-stack--lg">
           <div>
             <p class="ih-kicker">ihatefront</p>
-            <h1 class="ih-heading">Component showcase</h1>
+            <h1 class="ih-heading">Documentation</h1>
           </div>
           <div>
-            <a href="#foundations">Foundations</a>
+            <a href="#quick-start">Quick start</a>
+            <a href="#tokens">Tokens</a>
             <a href="#layout">Layout</a>
-            <a href="#buttons">Buttons</a>
+            <a href="#button">Button</a>
+            <a href="#button-group">Button group</a>
+            <a href="#toggle-group">Toggle group</a>
             <a href="#forms">Forms</a>
-            <a href="#navigation">Navigation</a>
-            <a href="#data">Data display</a>
-            <a href="#feedback">Feedback</a>
-            <a href="#surfaces">Surfaces</a>
+            <a href="#autocomplete">Autocomplete</a>
+            <a href="#card-sheet">Card and sheet</a>
+            <a href="#alert">Alert</a>
+            <a href="#badge-chip-avatar">Badge, chip, avatar</a>
+            <a href="#status">Status</a>
+            <a href="#list">List</a>
+            <a href="#table">Table</a>
+            <a href="#tooltip">Tooltip</a>
+            <a href="#menu">Menu</a>
+            <a href="#tabs">Tabs</a>
+            <a href="#breadcrumbs-stepper">Breadcrumbs and stepper</a>
+            <a href="#accordion">Accordion</a>
+            <a href="#modal-drawer">Modal and drawer</a>
+            <a href="#feedback">Progress, skeleton, snackbar</a>
             <a href="#dashboard">Dashboard pattern</a>
           </div>
         </div>
       </nav>
 
       <main class="ih-docs-main">
-        <section class="ih-section">
+        <section class="ih-section" id="quick-start">
           <div class="ih-container ih-stack ih-stack--lg">
             <div class="ih-stack">
               <p class="ih-kicker">Light theme only</p>
-              <h2 class="ih-title">Lean components for product UIs</h2>
-              <p class="ih-subtitle">Import one CSS file, use predictable classes, and add the small JS bundle for menus, modals, tabs, drawers, accordions, autocomplete, and snackbars.</p>
+              <h2 class="ih-title">Build clean product UIs with plain HTML</h2>
+              <p class="ih-subtitle">`ihatefront` ships as CSS plus a small vanilla JavaScript module. Use the CSS for static components, then opt into JS behavior with `data-ih-*` attributes for menus, tabs, accordions, modals, drawers, autocomplete, dismissible alerts, and snackbars.</p>
             </div>
             <div class="ih-cluster">
-              <button class="ih-btn ih-btn--solid ih-btn--primary">Get started</button>
-              <button class="ih-btn ih-btn--outlined ih-btn--neutral">View source</button>
+              <a class="ih-btn ih-btn--solid ih-btn--primary" href="https://github.com/Nielk74/ihatefront">GitHub</a>
+              <a class="ih-btn ih-btn--outlined ih-btn--neutral" href="#button">Browse components</a>
               <span class="ih-chip ih-chip--success">v0.1.0</span>
+            </div>
+            <div class="ih-grid">
+              <div class="ih-sheet ih-stack">
+                <h3 class="ih-heading">Install from the repo</h3>
+                <pre class="ih-code"><code>npm install ihatefront</code></pre>
+              </div>
+              <div class="ih-sheet ih-stack">
+                <h3 class="ih-heading">Use compiled assets</h3>
+                <pre class="ih-code"><code>&lt;link rel="stylesheet" href="dist/ihatefront.css"&gt;
+&lt;script type="module" src="dist/ihatefront.js"&gt;&lt;/script&gt;</code></pre>
+              </div>
+            </div>
+            <div class="ih-alert ih-alert--primary">
+              <span class="ih-alert__icon">i</span>
+              <div>
+                <strong>Documentation style</strong>
+                <p class="ih-helper">Every component below shows the live result first, then copy-paste markup, then usage notes.</p>
+              </div>
+              <span></span>
             </div>
           </div>
         </section>
 
-        <section class="ih-section" id="foundations">
+        <section class="ih-section" id="tokens">
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Foundations</p>
-              <h2 class="ih-heading">Tokens, typography, variants, and colors</h2>
+              <h2 class="ih-heading">Tokens and global conventions</h2>
+              <p class="ih-subtitle">Customize the framework by overriding CSS variables. The first release supports a light color scheme only.</p>
             </div>
             <div class="ih-grid ih-grid--dense">
               <div class="ih-sheet ih-stack ih-stack--sm">
-                <strong>Neutral surface</strong>
-                <span class="ih-text-muted">Borders, muted text, and subtle backgrounds are tuned for dense screens.</span>
-              </div>
-              <div class="ih-sheet ih-stack ih-stack--sm">
-                <strong>Global variants</strong>
+                <strong>Variants</strong>
                 <div class="ih-cluster">
                   <span class="ih-chip">plain</span>
                   <span class="ih-chip ih-chip--primary">outlined</span>
@@ -66,16 +95,25 @@
                 </div>
               </div>
               <div class="ih-sheet ih-stack ih-stack--sm">
-                <strong>Status colors</strong>
+                <strong>Semantic colors</strong>
                 <div class="ih-cluster">
-                  <span class="ih-status ih-status--success">Success</span>
-                  <span class="ih-status ih-status--partial">Partial</span>
-                  <span class="ih-status ih-status--failure">Failure</span>
-                  <span class="ih-status ih-status--unknown">Unknown</span>
+                  <span class="ih-status ih-status--success">success</span>
+                  <span class="ih-status ih-status--partial">warning</span>
+                  <span class="ih-status ih-status--failure">danger</span>
+                  <span class="ih-status ih-status--unknown">neutral</span>
                 </div>
               </div>
+              <div class="ih-sheet ih-stack ih-stack--sm">
+                <strong>Density</strong>
+                <span class="ih-text-muted">Small controls use `--sm`, large controls use `--lg`, and tables can opt into `--dense`.</span>
+              </div>
             </div>
-            <pre class="ih-code"><code>&lt;button class="ih-btn ih-btn--solid ih-btn--primary"&gt;Save&lt;/button&gt;</code></pre>
+            <pre class="ih-code"><code>:root {
+  --ih-primary: #0969da;
+  --ih-radius-sm: 6px;
+  --ih-container: 1180px;
+}</code></pre>
+            <p class="ih-helper">Use tokens for product-level customization. Avoid writing one-off colors into component markup.</p>
           </div>
         </section>
 
@@ -83,29 +121,36 @@
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Layout</p>
-              <h2 class="ih-heading">Container, grid, stack, cluster, sheet, and app shell</h2>
+              <h2 class="ih-heading">Container, grid, stack, cluster, app shell, and sheet</h2>
+              <p class="ih-subtitle">Layout primitives keep product screens compact without fixed widths.</p>
             </div>
             <div class="ih-grid">
               <div class="ih-card">
                 <div class="ih-card__header">
-                  <strong>Revenue</strong>
+                  <strong>Grid card</strong>
                   <span class="ih-badge">12</span>
                 </div>
                 <div class="ih-card__body">
-                  <h3 class="ih-title">$84.2k</h3>
-                  <p class="ih-helper">Soft card for repeated metrics.</p>
+                  <p class="ih-u-mb-0">`.ih-grid` auto-fits columns from a minimum width.</p>
                 </div>
               </div>
               <div class="ih-card">
                 <div class="ih-card__header">
-                  <strong>Incidents</strong>
-                  <span class="ih-status ih-status--success">Normal</span>
+                  <strong>Cluster actions</strong>
+                  <span class="ih-status ih-status--success">Ready</span>
                 </div>
-                <div class="ih-card__body">
-                  <p class="ih-subtitle">Grid columns collapse cleanly without fixed dashboard widths.</p>
+                <div class="ih-cluster">
+                  <button class="ih-btn ih-btn--sm ih-btn--solid ih-btn--primary">Deploy</button>
+                  <button class="ih-btn ih-btn--sm ih-btn--outlined ih-btn--neutral">Cancel</button>
                 </div>
               </div>
             </div>
+            <pre class="ih-code"><code>&lt;div class="ih-container ih-stack ih-stack--lg"&gt;
+  &lt;div class="ih-grid"&gt;
+    &lt;article class="ih-card"&gt;...&lt;/article&gt;
+    &lt;article class="ih-card"&gt;...&lt;/article&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
             <div class="ih-sheet ih-sheet--flush">
               <div class="ih-sidebar-layout" style="min-height: 18rem;">
                 <aside class="ih-sidebar">
@@ -127,45 +172,102 @@
                   </div>
                   <div class="ih-stack" style="padding: 1rem;">
                     <h3 class="ih-heading">Responsive shell</h3>
-                    <p class="ih-helper">Use this for admin tools and operational dashboards.</p>
+                    <p class="ih-helper">Use `.ih-sidebar-layout`, `.ih-sidebar`, `.ih-main`, and `.ih-topbar` for admin tools.</p>
                   </div>
                 </div>
               </div>
             </div>
+            <pre class="ih-code"><code>&lt;div class="ih-sidebar-layout"&gt;
+  &lt;aside class="ih-sidebar"&gt;...&lt;/aside&gt;
+  &lt;main class="ih-main"&gt;
+    &lt;div class="ih-topbar"&gt;...&lt;/div&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</code></pre>
           </div>
         </section>
 
-        <section class="ih-section" id="buttons">
+        <section class="ih-section" id="button">
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Inputs</p>
-              <h2 class="ih-heading">Buttons, button groups, icon buttons, and toggles</h2>
+              <h2 class="ih-heading">Button</h2>
+              <p class="ih-subtitle">Buttons are action controls. Combine `.ih-btn` with one variant, one color, and optionally one size.</p>
             </div>
             <div class="ih-stack">
+              <h3 class="ih-heading">Variants</h3>
               <div class="ih-cluster">
                 <button class="ih-btn ih-btn--solid ih-btn--primary">Solid</button>
                 <button class="ih-btn ih-btn--soft ih-btn--primary">Soft</button>
                 <button class="ih-btn ih-btn--outlined ih-btn--primary">Outlined</button>
                 <button class="ih-btn ih-btn--plain ih-btn--primary">Plain</button>
               </div>
+              <pre class="ih-code"><code>&lt;button class="ih-btn ih-btn--solid ih-btn--primary"&gt;Solid&lt;/button&gt;
+&lt;button class="ih-btn ih-btn--soft ih-btn--primary"&gt;Soft&lt;/button&gt;
+&lt;button class="ih-btn ih-btn--outlined ih-btn--primary"&gt;Outlined&lt;/button&gt;
+&lt;button class="ih-btn ih-btn--plain ih-btn--primary"&gt;Plain&lt;/button&gt;</code></pre>
+            </div>
+            <div class="ih-stack">
+              <h3 class="ih-heading">Colors and sizes</h3>
               <div class="ih-cluster">
+                <button class="ih-btn ih-btn--sm ih-btn--solid ih-btn--neutral">Small</button>
                 <button class="ih-btn ih-btn--solid ih-btn--success">Success</button>
                 <button class="ih-btn ih-btn--soft ih-btn--warning">Warning</button>
                 <button class="ih-btn ih-btn--outlined ih-btn--danger">Danger</button>
+                <button class="ih-btn ih-btn--lg ih-btn--solid ih-btn--primary">Large</button>
                 <button class="ih-btn ih-icon-btn ih-btn--outlined ih-btn--neutral" aria-label="Settings">...</button>
               </div>
-              <div class="ih-cluster">
-                <div class="ih-btn-group" role="group" aria-label="View mode">
-                  <button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm">Day</button>
-                  <button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm">Week</button>
-                  <button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm">Month</button>
-                </div>
-                <div class="ih-toggle-group" aria-label="Density">
-                  <button class="ih-toggle" aria-pressed="true">Comfort</button>
-                  <button class="ih-toggle" aria-pressed="false">Compact</button>
-                </div>
-              </div>
+              <pre class="ih-code"><code>&lt;button class="ih-btn ih-btn--sm ih-btn--solid ih-btn--neutral"&gt;Small&lt;/button&gt;
+&lt;button class="ih-btn ih-btn--outlined ih-btn--danger"&gt;Danger&lt;/button&gt;
+&lt;button class="ih-btn ih-icon-btn ih-btn--outlined ih-btn--neutral" aria-label="Settings"&gt;...&lt;/button&gt;</code></pre>
             </div>
+            <div class="ih-alert ih-alert--primary">
+              <span class="ih-alert__icon">i</span>
+              <div>
+                <strong>Accessibility</strong>
+                <p class="ih-helper">Use `button` for actions and `a.ih-btn` for navigation. Icon-only buttons need an `aria-label`.</p>
+              </div>
+              <span></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="ih-section" id="button-group">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Inputs</p>
+              <h2 class="ih-heading">Button group</h2>
+              <p class="ih-subtitle">Use button groups for closely related actions. Add `role="group"` and a label.</p>
+            </div>
+            <div class="ih-btn-group" role="group" aria-label="View mode">
+              <button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm">Day</button>
+              <button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm">Week</button>
+              <button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm">Month</button>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-btn-group" role="group" aria-label="View mode"&gt;
+  &lt;button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm"&gt;Day&lt;/button&gt;
+  &lt;button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm"&gt;Week&lt;/button&gt;
+  &lt;button class="ih-btn ih-btn--outlined ih-btn--neutral ih-btn--sm"&gt;Month&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="toggle-group">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Inputs</p>
+              <h2 class="ih-heading">Toggle group</h2>
+              <p class="ih-subtitle">Use toggle groups for compact mode selection. Store selection with `aria-pressed` or `data-ih-active`.</p>
+            </div>
+            <div class="ih-toggle-group" aria-label="Density">
+              <button class="ih-toggle" aria-pressed="true">Comfort</button>
+              <button class="ih-toggle" aria-pressed="false">Compact</button>
+              <button class="ih-toggle" aria-pressed="false">Dense</button>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-toggle-group" aria-label="Density"&gt;
+  &lt;button class="ih-toggle" aria-pressed="true"&gt;Comfort&lt;/button&gt;
+  &lt;button class="ih-toggle" aria-pressed="false"&gt;Compact&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+            <p class="ih-helper">The current JS bundle does not manage toggle state yet; update `aria-pressed` in your application logic.</p>
           </div>
         </section>
 
@@ -173,13 +275,14 @@
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Forms</p>
-              <h2 class="ih-heading">Input, select, textarea, checkbox, radio, switch, slider, and autocomplete</h2>
+              <h2 class="ih-heading">Inputs, selects, textareas, checks, radios, switches, and sliders</h2>
+              <p class="ih-subtitle">Wrap every field in `.ih-field`, use visible labels, and keep helper text close to the control.</p>
             </div>
             <div class="ih-grid">
               <label class="ih-field">
                 <span class="ih-label">Repository</span>
-                <input class="ih-input" placeholder="nielk74/ihatefront">
-                <span class="ih-helper">Use concise helper text under the control.</span>
+                <input class="ih-input" placeholder="Nielk74/ihatefront">
+                <span class="ih-helper">Use `.ih-input` for single-line text.</span>
               </label>
               <label class="ih-field">
                 <span class="ih-label">Environment</span>
@@ -189,20 +292,50 @@
                   <option>Development</option>
                 </select>
               </label>
-              <label class="ih-field">
-                <span class="ih-label">Notes</span>
-                <textarea class="ih-textarea" placeholder="Release notes"></textarea>
+              <label class="ih-field" data-ih-error>
+                <span class="ih-label">Release note</span>
+                <textarea class="ih-textarea" placeholder="Describe this deploy"></textarea>
+                <span class="ih-helper">Required before shipping.</span>
               </label>
               <div class="ih-field">
-                <span class="ih-label">Controls</span>
+                <span class="ih-label">Release options</span>
                 <label class="ih-control-row"><input class="ih-check" type="checkbox" checked> Include migrations</label>
-                <label class="ih-control-row"><input class="ih-radio" type="radio" name="deploy" checked> Rolling deploy</label>
+                <label class="ih-control-row"><input class="ih-radio" type="radio" name="deploy-mode" checked> Rolling deploy</label>
+                <label class="ih-control-row"><input class="ih-radio" type="radio" name="deploy-mode"> Immediate deploy</label>
                 <label class="ih-control-row"><input class="ih-switch" type="checkbox" checked> Auto rollback</label>
                 <input class="ih-slider" type="range" value="62" aria-label="Rollout percent">
               </div>
             </div>
+            <pre class="ih-code"><code>&lt;label class="ih-field"&gt;
+  &lt;span class="ih-label"&gt;Repository&lt;/span&gt;
+  &lt;input class="ih-input" placeholder="Nielk74/ihatefront"&gt;
+  &lt;span class="ih-helper"&gt;Use concise helper text.&lt;/span&gt;
+&lt;/label&gt;
+
+&lt;label class="ih-control-row"&gt;
+  &lt;input class="ih-switch" type="checkbox" checked&gt;
+  Auto rollback
+&lt;/label&gt;</code></pre>
+            <div class="ih-alert ih-alert--warning">
+              <span class="ih-alert__icon">!</span>
+              <div>
+                <strong>Validation</strong>
+                <p class="ih-helper">Use native validation attributes and add `data-ih-error` to the field wrapper when you need the danger border.</p>
+              </div>
+              <span></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="ih-section" id="autocomplete">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Forms</p>
+              <h2 class="ih-heading">Autocomplete</h2>
+              <p class="ih-subtitle">Autocomplete is a text input enhanced with a filtered option list. The JS plugin wires focus, filtering, click selection, and Escape close behavior.</p>
+            </div>
             <div class="ih-field" style="max-width: 28rem;">
-              <span class="ih-label">Autocomplete</span>
+              <span class="ih-label">Component</span>
               <div class="ih-autocomplete" data-ih-autocomplete>
                 <input class="ih-input" data-ih-autocomplete-input aria-label="Choose component" placeholder="Search components">
                 <ul class="ih-autocomplete__list" data-ih-autocomplete-list>
@@ -210,33 +343,265 @@
                   <li class="ih-autocomplete__option" data-value="Table">Table</li>
                   <li class="ih-autocomplete__option" data-value="Modal">Modal</li>
                   <li class="ih-autocomplete__option" data-value="Autocomplete">Autocomplete</li>
+                  <li class="ih-autocomplete__option" data-value="Status table">Status table</li>
                 </ul>
+              </div>
+              <span class="ih-helper">Type to filter, then click an option.</span>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-field"&gt;
+  &lt;span class="ih-label"&gt;Component&lt;/span&gt;
+  &lt;div class="ih-autocomplete" data-ih-autocomplete&gt;
+    &lt;input class="ih-input" data-ih-autocomplete-input aria-label="Choose component"&gt;
+    &lt;ul class="ih-autocomplete__list" data-ih-autocomplete-list&gt;
+      &lt;li class="ih-autocomplete__option" data-value="Button"&gt;Button&lt;/li&gt;
+      &lt;li class="ih-autocomplete__option" data-value="Table"&gt;Table&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <div class="ih-grid">
+              <div class="ih-sheet ih-stack ih-stack--sm">
+                <strong>When to use</strong>
+                <p class="ih-helper">Use autocomplete for short option sets where search is faster than scanning a select.</p>
+              </div>
+              <div class="ih-sheet ih-stack ih-stack--sm">
+                <strong>Current limitation</strong>
+                <p class="ih-helper">Keyboard option navigation is not implemented yet. Use native select for critical keyboard-heavy flows until that lands.</p>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="ih-section" id="navigation">
+        <section class="ih-section" id="card-sheet">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Surfaces</p>
+              <h2 class="ih-heading">Card and sheet</h2>
+              <p class="ih-subtitle">Sheets frame a tool surface. Cards frame repeated content. Avoid nesting cards inside cards.</p>
+            </div>
+            <div class="ih-grid">
+              <div class="ih-sheet ih-stack">
+                <h3 class="ih-heading">Sheet</h3>
+                <p class="ih-u-mb-0">Use for forms, settings panels, and table containers.</p>
+              </div>
+              <article class="ih-card">
+                <div class="ih-card__header">
+                  <strong>Card</strong>
+                  <span class="ih-chip ih-chip--primary">Repeated</span>
+                </div>
+                <div class="ih-card__body">Use for repeated entities such as projects, alerts, and metrics.</div>
+                <div class="ih-card__footer">
+                  <button class="ih-btn ih-btn--sm ih-btn--outlined ih-btn--neutral">Open</button>
+                </div>
+              </article>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-sheet"&gt;...&lt;/div&gt;
+
+&lt;article class="ih-card"&gt;
+  &lt;div class="ih-card__header"&gt;...&lt;/div&gt;
+  &lt;div class="ih-card__body"&gt;...&lt;/div&gt;
+  &lt;div class="ih-card__footer"&gt;...&lt;/div&gt;
+&lt;/article&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="alert">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Feedback</p>
+              <h2 class="ih-heading">Alert</h2>
+              <p class="ih-subtitle">Alerts communicate page-level state. Use dismiss buttons only for non-critical alerts.</p>
+            </div>
+            <div class="ih-stack">
+              <div class="ih-alert ih-alert--success">
+                <span class="ih-alert__icon">OK</span>
+                <div>
+                  <strong>Build passed</strong>
+                  <p class="ih-helper">The release artifacts were generated from source.</p>
+                </div>
+                <button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-dismiss=".ih-alert" aria-label="Dismiss">x</button>
+              </div>
+              <div class="ih-alert ih-alert--danger">
+                <span class="ih-alert__icon">!</span>
+                <div>
+                  <strong>Deployment blocked</strong>
+                  <p class="ih-helper">One required check is still failing.</p>
+                </div>
+                <span></span>
+              </div>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-alert ih-alert--success"&gt;
+  &lt;span class="ih-alert__icon"&gt;OK&lt;/span&gt;
+  &lt;div&gt;
+    &lt;strong&gt;Build passed&lt;/strong&gt;
+    &lt;p class="ih-helper"&gt;The release artifacts were generated.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral"
+    data-ih-dismiss=".ih-alert" aria-label="Dismiss"&gt;x&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="badge-chip-avatar">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Data display</p>
+              <h2 class="ih-heading">Badge, chip, and avatar</h2>
+              <p class="ih-subtitle">Use badges for counts, chips for compact metadata, and avatars for identity.</p>
+            </div>
+            <div class="ih-cluster">
+              <span class="ih-avatar ih-avatar--sm">UI</span>
+              <span class="ih-avatar">AK</span>
+              <span class="ih-avatar ih-avatar--lg">IF</span>
+              <span class="ih-badge">8</span>
+              <span class="ih-chip">neutral</span>
+              <span class="ih-chip ih-chip--primary">primary</span>
+              <span class="ih-chip ih-chip--success">success</span>
+              <span class="ih-chip ih-chip--warning">warning</span>
+              <span class="ih-chip ih-chip--danger">danger</span>
+            </div>
+            <pre class="ih-code"><code>&lt;span class="ih-avatar"&gt;AK&lt;/span&gt;
+&lt;span class="ih-badge"&gt;8&lt;/span&gt;
+&lt;span class="ih-chip ih-chip--primary"&gt;primary&lt;/span&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="status">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Data display</p>
+              <h2 class="ih-heading">Status and status legend</h2>
+              <p class="ih-subtitle">Status components include a dot and text so state is not communicated by color alone.</p>
+            </div>
+            <div class="ih-cluster">
+              <span class="ih-status ih-status--success">Success</span>
+              <span class="ih-status ih-status--partial">Partial</span>
+              <span class="ih-status ih-status--failure">Failure</span>
+              <span class="ih-status ih-status--building">Building</span>
+              <span class="ih-status ih-status--unknown">Unknown</span>
+            </div>
+            <ul class="ih-legend" style="max-width: 22rem;">
+              <li class="ih-legend__item is-success">Success <span>4</span></li>
+              <li class="ih-legend__item is-partial">Partial <span>1</span></li>
+              <li class="ih-legend__item is-failure">Failure <span>1</span></li>
+            </ul>
+            <pre class="ih-code"><code>&lt;span class="ih-status ih-status--success"&gt;Success&lt;/span&gt;
+
+&lt;ul class="ih-legend"&gt;
+  &lt;li class="ih-legend__item is-success"&gt;Success &lt;span&gt;4&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="list">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Data display</p>
+              <h2 class="ih-heading">List</h2>
+              <p class="ih-subtitle">Lists support static rows and interactive button rows.</p>
+            </div>
+            <div class="ih-sheet" style="max-width: 26rem;">
+              <ul class="ih-list">
+                <li class="ih-list__item"><span class="ih-status ih-status--success">Online</span> API gateway</li>
+                <li><button class="ih-list__button" data-ih-active>Deployments</button></li>
+                <li><button class="ih-list__button">Settings</button></li>
+              </ul>
+            </div>
+            <pre class="ih-code"><code>&lt;ul class="ih-list"&gt;
+  &lt;li class="ih-list__item"&gt;Static row&lt;/li&gt;
+  &lt;li&gt;&lt;button class="ih-list__button" data-ih-active&gt;Active row&lt;/button&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="table">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Data display</p>
+              <h2 class="ih-heading">Table</h2>
+              <p class="ih-subtitle">Wrap tables in `.ih-table-wrap` to get border framing and horizontal overflow on small screens.</p>
+            </div>
+            <div class="ih-table-wrap">
+              <table class="ih-table ih-table--dense ih-table--hover">
+                <thead>
+                  <tr>
+                    <th>Package</th>
+                    <th>Version</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>ihatefront</td>
+                    <td>0.1.0</td>
+                    <td><span class="ih-status ih-status--success">Ready</span></td>
+                    <td><span class="ih-avatar ih-avatar--sm">IF</span></td>
+                  </tr>
+                  <tr>
+                    <td>docs</td>
+                    <td>local</td>
+                    <td><span class="ih-status ih-status--building">Building</span></td>
+                    <td><span class="ih-avatar ih-avatar--sm">UI</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-table-wrap"&gt;
+  &lt;table class="ih-table ih-table--dense ih-table--hover"&gt;
+    &lt;thead&gt;...&lt;/thead&gt;
+    &lt;tbody&gt;...&lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="tooltip">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Data display</p>
+              <h2 class="ih-heading">Tooltip</h2>
+              <p class="ih-subtitle">Tooltips are for supplemental details. They appear on hover and keyboard focus.</p>
+            </div>
+            <p>
+              Version drift
+              <span class="ih-tooltip" tabindex="0" data-ih-tooltip="The deployed service can lag behind the selected release while a rollout is active.">info</span>
+            </p>
+            <pre class="ih-code"><code>&lt;span class="ih-tooltip" tabindex="0"
+  data-ih-tooltip="Supplemental explanation."&gt;info&lt;/span&gt;</code></pre>
+            <p class="ih-helper">Do not hide essential information inside a tooltip. Keep the trigger keyboard focusable with `tabindex="0"` when it is not a native control.</p>
+          </div>
+        </section>
+
+        <section class="ih-section" id="menu">
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Navigation</p>
-              <h2 class="ih-heading">Breadcrumbs, menus, tabs, drawers, and steppers</h2>
+              <h2 class="ih-heading">Menu</h2>
+              <p class="ih-subtitle">Menus need the JS bundle. Use `data-ih-menu`, `data-ih-menu-button`, and `data-ih-menu-content`.</p>
             </div>
-            <ol class="ih-breadcrumb" aria-label="Breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Projects</a></li>
-              <li aria-current="page">ihatefront</li>
-            </ol>
-            <div class="ih-cluster">
-              <div class="ih-menu" data-ih-menu>
-                <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-menu-button>Actions</button>
-                <div class="ih-menu__content" data-ih-menu-content>
-                  <button class="ih-menu__item">Create release</button>
-                  <button class="ih-menu__item">Open workflow</button>
-                  <button class="ih-menu__item">Archive project</button>
-                </div>
+            <div class="ih-menu" data-ih-menu>
+              <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-menu-button>Actions</button>
+              <div class="ih-menu__content" data-ih-menu-content>
+                <button class="ih-menu__item">Create release</button>
+                <button class="ih-menu__item">Open workflow</button>
+                <button class="ih-menu__item">Archive project</button>
               </div>
-              <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-drawer-target="#docs-drawer">Open drawer</button>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-menu" data-ih-menu&gt;
+  &lt;button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-menu-button&gt;Actions&lt;/button&gt;
+  &lt;div class="ih-menu__content" data-ih-menu-content&gt;
+    &lt;button class="ih-menu__item"&gt;Create release&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="tabs">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Navigation</p>
+              <h2 class="ih-heading">Tabs</h2>
+              <p class="ih-subtitle">Tabs use WAI-ARIA roles. The JS plugin handles click activation and left/right arrow movement.</p>
             </div>
             <div class="ih-tabs" data-ih-tabs>
               <div class="ih-tablist" role="tablist" aria-label="Repository tabs">
@@ -254,61 +619,82 @@
                 <div class="ih-sheet">CI builds CSS and checks docs references.</div>
               </div>
             </div>
+            <pre class="ih-code"><code>&lt;div class="ih-tabs" data-ih-tabs&gt;
+  &lt;div class="ih-tablist" role="tablist" aria-label="Repository tabs"&gt;
+    &lt;button class="ih-tab" role="tab" aria-selected="true" aria-controls="tab-code" id="tab-code-button"&gt;Code&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div id="tab-code" role="tabpanel" data-ih-tab-panel aria-labelledby="tab-code-button"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="breadcrumbs-stepper">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Navigation</p>
+              <h2 class="ih-heading">Breadcrumbs and stepper</h2>
+              <p class="ih-subtitle">Breadcrumbs show location. Steppers show progress through a known workflow.</p>
+            </div>
+            <ol class="ih-breadcrumb" aria-label="Breadcrumb">
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Projects</a></li>
+              <li aria-current="page">ihatefront</li>
+            </ol>
             <ol class="ih-stepper" aria-label="Release steps">
               <li class="ih-step" data-step="1" data-ih-complete>Build</li>
               <li class="ih-step" data-step="2" data-ih-active>Review</li>
               <li class="ih-step" data-step="3">Ship</li>
             </ol>
+            <pre class="ih-code"><code>&lt;ol class="ih-breadcrumb" aria-label="Breadcrumb"&gt;
+  &lt;li&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li aria-current="page"&gt;Project&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;ol class="ih-stepper" aria-label="Release steps"&gt;
+  &lt;li class="ih-step" data-step="1" data-ih-complete&gt;Build&lt;/li&gt;
+  &lt;li class="ih-step" data-step="2" data-ih-active&gt;Review&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
           </div>
         </section>
 
-        <section class="ih-section" id="data">
+        <section class="ih-section" id="accordion">
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
-              <p class="ih-kicker">Data display</p>
-              <h2 class="ih-heading">Avatar, badge, chip, list, table, tooltip, and status</h2>
+              <p class="ih-kicker">Surfaces</p>
+              <h2 class="ih-heading">Accordion</h2>
+              <p class="ih-subtitle">Accordions need the JS bundle. Each trigger controls the panel immediately after it.</p>
+            </div>
+            <div class="ih-accordion" data-ih-accordion>
+              <button class="ih-accordion__trigger" aria-expanded="true" data-ih-accordion-trigger>Install</button>
+              <div class="ih-accordion__panel">Use compiled CSS and optional JS from `dist/`.</div>
+              <button class="ih-accordion__trigger" aria-expanded="false" data-ih-accordion-trigger>Customize</button>
+              <div class="ih-accordion__panel">Override CSS variables at `:root` or a scoped container.</div>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-accordion" data-ih-accordion&gt;
+  &lt;button class="ih-accordion__trigger" aria-expanded="true" data-ih-accordion-trigger&gt;Install&lt;/button&gt;
+  &lt;div class="ih-accordion__panel"&gt;Use compiled CSS.&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+        </section>
+
+        <section class="ih-section" id="modal-drawer">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Surfaces</p>
+              <h2 class="ih-heading">Modal and drawer</h2>
+              <p class="ih-subtitle">Use modals for blocking decisions and drawers for secondary navigation or settings.</p>
             </div>
             <div class="ih-cluster">
-              <span class="ih-avatar">AK</span>
-              <span class="ih-avatar ih-avatar--sm">UI</span>
-              <span class="ih-avatar ih-avatar--lg">IF</span>
-              <span class="ih-badge">8</span>
-              <span class="ih-chip">neutral</span>
-              <span class="ih-chip ih-chip--primary">primary</span>
-              <span class="ih-tooltip" tabindex="0" data-ih-tooltip="Tooltips are visible on hover and keyboard focus.">Info</span>
+              <button class="ih-btn ih-btn--solid ih-btn--primary" data-ih-modal-target="#docs-modal">Open modal</button>
+              <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-drawer-target="#docs-drawer">Open drawer</button>
             </div>
-            <div class="ih-grid">
-              <div class="ih-sheet">
-                <ul class="ih-list">
-                  <li class="ih-list__item"><span class="ih-status ih-status--success">Online</span> API gateway</li>
-                  <li class="ih-list__item"><span class="ih-status ih-status--warning">Degraded</span> Job queue</li>
-                  <li class="ih-list__item"><span class="ih-status ih-status--unknown">Unknown</span> Mirror</li>
-                </ul>
-              </div>
-              <div class="ih-table-wrap">
-                <table class="ih-table ih-table--dense ih-table--hover">
-                  <thead>
-                    <tr>
-                      <th>Package</th>
-                      <th>Version</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>ihatefront</td>
-                      <td>0.1.0</td>
-                      <td><span class="ih-status ih-status--success">Ready</span></td>
-                    </tr>
-                    <tr>
-                      <td>docs</td>
-                      <td>local</td>
-                      <td><span class="ih-status ih-status--building">Building</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+            <pre class="ih-code"><code>&lt;button class="ih-btn ih-btn--solid ih-btn--primary" data-ih-modal-target="#release-modal"&gt;Open modal&lt;/button&gt;
+
+&lt;div class="ih-modal" id="release-modal" aria-hidden="true" role="dialog" aria-modal="true"&gt;
+  &lt;div class="ih-modal__dialog"&gt;
+    &lt;button data-ih-modal-close&gt;Close&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
           </div>
         </section>
 
@@ -316,25 +702,10 @@
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Feedback</p>
-              <h2 class="ih-heading">Alerts, progress, spinner, skeleton, and snackbar</h2>
+              <h2 class="ih-heading">Progress, spinner, skeleton, and snackbar</h2>
+              <p class="ih-subtitle">Use progress for determinate work, spinner for short indeterminate work, skeleton for loading layout, and snackbar for brief non-blocking feedback.</p>
             </div>
             <div class="ih-stack">
-              <div class="ih-alert ih-alert--success">
-                <span class="ih-alert__icon">OK</span>
-                <div>
-                  <strong>Build passed</strong>
-                  <p class="ih-helper">The release artifacts were generated from source.</p>
-                </div>
-                <button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-dismiss=".ih-alert" aria-label="Dismiss">x</button>
-              </div>
-              <div class="ih-alert ih-alert--warning">
-                <span class="ih-alert__icon">!</span>
-                <div>
-                  <strong>Light theme only</strong>
-                  <p class="ih-helper">Dark theme support is intentionally out of scope for the first pass.</p>
-                </div>
-                <span></span>
-              </div>
               <div class="ih-progress" aria-label="Build progress"><span class="ih-progress__bar" style="--ih-progress-value: 72%;"></span></div>
               <div class="ih-cluster">
                 <span class="ih-spinner" aria-label="Loading"></span>
@@ -342,33 +713,13 @@
                 <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-toast-target="#docs-toast">Show snackbar</button>
               </div>
             </div>
-          </div>
-        </section>
+            <pre class="ih-code"><code>&lt;div class="ih-progress" aria-label="Build progress"&gt;
+  &lt;span class="ih-progress__bar" style="--ih-progress-value: 72%;"&gt;&lt;/span&gt;
+&lt;/div&gt;
 
-        <section class="ih-section" id="surfaces">
-          <div class="ih-container ih-stack ih-stack--lg">
-            <div>
-              <p class="ih-kicker">Surfaces</p>
-              <h2 class="ih-heading">Cards, accordion, modal, drawer, and sheet</h2>
-            </div>
-            <div class="ih-grid">
-              <div class="ih-card">
-                <div class="ih-card__header">
-                  <strong>Release card</strong>
-                  <span class="ih-chip ih-chip--primary">Latest</span>
-                </div>
-                <p class="ih-u-mb-0">Cards are for repeated framed content, not for every page section.</p>
-              </div>
-              <div class="ih-accordion" data-ih-accordion>
-                <button class="ih-accordion__trigger" aria-expanded="true" data-ih-accordion-trigger>Install</button>
-                <div class="ih-accordion__panel">Use compiled CSS and optional JS from `dist/`.</div>
-                <button class="ih-accordion__trigger" aria-expanded="false" data-ih-accordion-trigger>Customize</button>
-                <div class="ih-accordion__panel">Override CSS variables at `:root` or a scoped container.</div>
-              </div>
-            </div>
-            <div class="ih-cluster">
-              <button class="ih-btn ih-btn--solid ih-btn--primary" data-ih-modal-target="#docs-modal">Open modal</button>
-            </div>
+&lt;span class="ih-spinner" aria-label="Loading"&gt;&lt;/span&gt;
+&lt;span class="ih-skeleton" style="width: 12rem;"&gt;&lt;/span&gt;
+&lt;button data-ih-toast-target="#toast"&gt;Show snackbar&lt;/button&gt;</code></pre>
           </div>
         </section>
 
@@ -376,7 +727,8 @@
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
               <p class="ih-kicker">Operational pattern</p>
-              <h2 class="ih-heading">A cleaned-up replacement for dense status pages</h2>
+              <h2 class="ih-heading">Dashboard status page</h2>
+              <p class="ih-subtitle">This pattern replaces monolithic inline dashboard HTML with reusable components and anonymized data.</p>
             </div>
             <div class="ih-meta-bar">
               <span>Deployments refreshed: <strong>13 minutes ago</strong></span>
@@ -410,25 +762,42 @@
                       <td>68.0.0</td>
                       <td><span class="ih-status ih-status--success">Success</span></td>
                       <td>04:11 UTC</td>
-                      <td><span class="ih-link-stack"><a href="#">deployment</a><a href="#">services</a></span></td>
+                      <td><span class="ih-link-stack"><a href="#dashboard">deployment</a><a href="#dashboard">services</a></span></td>
                     </tr>
                     <tr class="is-partial">
                       <td>Preview B</td>
                       <td>68.0.0</td>
                       <td><span class="ih-status ih-status--partial">Partial</span></td>
                       <td>07:36 UTC</td>
-                      <td><span class="ih-link-stack"><a href="#">deployment</a><a href="#">services</a></span></td>
+                      <td><span class="ih-link-stack"><a href="#dashboard">deployment</a><a href="#dashboard">services</a></span></td>
                     </tr>
                     <tr class="is-failure">
                       <td>Staging</td>
                       <td>67.0.0</td>
                       <td><span class="ih-status ih-status--failure">Failure</span></td>
                       <td>01:45 UTC</td>
-                      <td><span class="ih-link-stack"><a href="#">deployment</a><a href="#">services</a></span></td>
+                      <td><span class="ih-link-stack"><a href="#dashboard">deployment</a><a href="#dashboard">services</a></span></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-meta-bar"&gt;
+  &lt;span&gt;Deployments refreshed: &lt;strong&gt;13 minutes ago&lt;/strong&gt;&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;table class="ih-table ih-table--dense ih-status-table"&gt;
+  &lt;tr class="is-success"&gt;
+    &lt;td&gt;&lt;span class="ih-status ih-status--success"&gt;Success&lt;/span&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+            <div class="ih-alert ih-alert--warning">
+              <span class="ih-alert__icon">!</span>
+              <div>
+                <strong>Public docs hygiene</strong>
+                <p class="ih-helper">Do not publish private hostnames, database names, internal project names, or fake production-looking data.</p>
+              </div>
+              <span></span>
             </div>
           </div>
         </section>
