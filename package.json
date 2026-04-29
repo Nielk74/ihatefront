@@ -1,0 +1,52 @@
+{
+  "name": "ihatefront",
+  "version": "0.1.0",
+  "description": "A lean light-theme frontend framework for clean product interfaces.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": [
+    "dist/ihatefront.css",
+    "src/css/ihatefront.css"
+  ],
+  "main": "dist/ihatefront.js",
+  "module": "dist/ihatefront.js",
+  "style": "dist/ihatefront.css",
+  "exports": {
+    ".": {
+      "style": "./dist/ihatefront.css",
+      "import": "./dist/ihatefront.js"
+    },
+    "./css": "./dist/ihatefront.css",
+    "./css/min": "./dist/ihatefront.min.css",
+    "./js": "./dist/ihatefront.js",
+    "./js/min": "./dist/ihatefront.min.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "docs",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "test": "node scripts/test.mjs"
+  },
+  "keywords": [
+    "css",
+    "frontend",
+    "components",
+    "ui",
+    "light-theme"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nielk74/ihatefront.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Nielk74/ihatefront/issues"
+  },
+  "homepage": "https://github.com/Nielk74/ihatefront#readme"
+}

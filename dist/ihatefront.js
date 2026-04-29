@@ -1,0 +1,238 @@
+/*! ihatefront v0.1.0 | MIT License | js */
+const selectors = {
+  active: 'data-ih-active',
+  open: 'data-ih-open'
+};
+
+function all(selector, root = document) {
+  return Array.from(root.querySelectorAll(selector));
+}
+
+function one(selector, root = document) {
+  return root.querySelector(selector);
+}
+
+function closeMenus(except) {
+  all('[data-ih-menu]').forEach((menu) => {
+    if (menu !== except) {
+      menu.removeAttribute(selectors.open);
+      one('[data-ih-menu-button]', menu)?.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+function closeDrawers() {
+  all('.ih-drawer[data-ih-open]').forEach((drawer) => drawer.removeAttribute(selectors.open));
+}
+
+function closeModals() {
+  all('.ih-modal[data-ih-open]').forEach((modal) => {
+    modal.removeAttribute(selectors.open);
+    modal.setAttribute('aria-hidden', 'true');
+  });
+}
+
+function openModal(target) {
+  const modal = typeof target === 'string' ? one(target) : target;
+  if (!modal) return;
+  modal.setAttribute(selectors.open, '');
+  modal.setAttribute('aria-hidden', 'false');
+  one('[data-ih-modal-close], button, [href], input, select, textarea', modal)?.focus();
+}
+
+function initMenus(root = document) {
+  all('[data-ih-menu]', root).forEach((menu) => {
+    const button = one('[data-ih-menu-button]', menu);
+    const content = one('[data-ih-menu-content]', menu);
+    if (!button || !content) return;
+    button.setAttribute('aria-haspopup', 'menu');
+    button.setAttribute('aria-expanded', menu.hasAttribute(selectors.open) ? 'true' : 'false');
+    content.setAttribute('role', content.getAttribute('role') || 'menu');
+  });
+}
+
+function initTabs(root = document) {
+  all('[data-ih-tabs]', root).forEach((tabs) => {
+    const tabButtons = all('[role="tab"]', tabs);
+    const panels = all('[data-ih-tab-panel]', tabs);
+    if (!tabButtons.length) return;
+
+    function activate(tab) {
+      const id = tab.getAttribute('aria-controls');
+      tabButtons.forEach((button) => {
+        const selected = button === tab;
+        button.setAttribute('aria-selected', String(selected));
+        button.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.id !== id;
+      });
+    }
+
+    tabButtons.forEach((tab, index) => {
+      tab.tabIndex = tab.getAttribute('aria-selected') === 'true' || index === 0 ? 0 : -1;
+      tab.addEventListener('click', () => activate(tab));
+      tab.addEventListener('keydown', (event) => {
+        const current = tabButtons.indexOf(tab);
+        const next = event.key === 'ArrowRight' ? current + 1 : event.key === 'ArrowLeft' ? current - 1 : current;
+        if (next !== current) {
+          event.preventDefault();
+          const target = tabButtons[(next + tabButtons.length) % tabButtons.length];
+          target.focus();
+          activate(target);
+        }
+      });
+    });
+
+    const selected = tabButtons.find((tab) => tab.getAttribute('aria-selected') === 'true') || tabButtons[0];
+    activate(selected);
+  });
+}
+
+function initAccordions(root = document) {
+  all('[data-ih-accordion]', root).forEach((accordion) => {
+    all('[data-ih-accordion-trigger]', accordion).forEach((trigger) => {
+      const panel = trigger.nextElementSibling;
+      if (!panel) return;
+      const expanded = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', String(expanded));
+      panel.hidden = !expanded;
+      trigger.addEventListener('click', () => {
+        const next = trigger.getAttribute('aria-expanded') !== 'true';
+        trigger.setAttribute('aria-expanded', String(next));
+        panel.hidden = !next;
+      });
+    });
+  });
+}
+
+function initAutocomplete(root = document) {
+  all('[data-ih-autocomplete]', root).forEach((box) => {
+    const input = one('[data-ih-autocomplete-input]', box);
+    const list = one('[data-ih-autocomplete-list]', box);
+    if (!input || !list) return;
+
+    const options = all('[data-value]', list);
+    input.setAttribute('autocomplete', 'off');
+    input.setAttribute('aria-expanded', 'false');
+
+    function update() {
+      const query = input.value.trim().toLowerCase();
+      let visible = 0;
+      options.forEach((option) => {
+        const match = option.textContent.toLowerCase().includes(query);
+        option.hidden = query !== '' && !match;
+        if (!option.hidden) visible += 1;
+      });
+      list.hidden = visible === 0;
+      input.setAttribute('aria-expanded', String(!list.hidden));
+    }
+
+    input.addEventListener('focus', update);
+    input.addEventListener('input', update);
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        list.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+      }
+    });
+    options.forEach((option) => {
+      option.addEventListener('click', () => {
+        input.value = option.dataset.value || option.textContent.trim();
+        list.hidden = true;
+        input.setAttribute('aria-expanded', 'false');
+      });
+    });
+    list.hidden = true;
+  });
+}
+
+function initTooltips(root = document) {
+  all('[data-ih-tooltip]', root).forEach((trigger, index) => {
+    if (!trigger.hasAttribute('aria-label')) {
+      trigger.setAttribute('aria-label', trigger.getAttribute('data-ih-tooltip') || `Tooltip ${index + 1}`);
+    }
+  });
+}
+
+function initDismiss(root = document) {
+  all('[data-ih-dismiss]', root).forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = button.closest(button.getAttribute('data-ih-dismiss') || '.ih-alert');
+      target?.remove();
+    });
+  });
+}
+
+function init(root = document) {
+  initMenus(root);
+  initTabs(root);
+  initAccordions(root);
+  initAutocomplete(root);
+  initTooltips(root);
+  initDismiss(root);
+}
+
+document.addEventListener('click', (event) => {
+  const menuButton = event.target.closest('[data-ih-menu-button]');
+  if (menuButton) {
+    const menu = menuButton.closest('[data-ih-menu]');
+    const isOpen = menu.hasAttribute(selectors.open);
+    closeMenus(menu);
+    menu.toggleAttribute(selectors.open, !isOpen);
+    menuButton.setAttribute('aria-expanded', String(!isOpen));
+    return;
+  }
+
+  const modalTrigger = event.target.closest('[data-ih-modal-target]');
+  if (modalTrigger) {
+    event.preventDefault();
+    openModal(modalTrigger.getAttribute('data-ih-modal-target'));
+    return;
+  }
+
+  if (event.target.closest('[data-ih-modal-close]') || event.target.classList.contains('ih-modal')) {
+    closeModals();
+    return;
+  }
+
+  const drawerTrigger = event.target.closest('[data-ih-drawer-target]');
+  if (drawerTrigger) {
+    const drawer = one(drawerTrigger.getAttribute('data-ih-drawer-target'));
+    drawer?.setAttribute(selectors.open, '');
+    return;
+  }
+
+  if (event.target.closest('[data-ih-drawer-close]')) {
+    closeDrawers();
+    return;
+  }
+
+  const toastTrigger = event.target.closest('[data-ih-toast-target]');
+  if (toastTrigger) {
+    const toast = one(toastTrigger.getAttribute('data-ih-toast-target'));
+    toast?.setAttribute(selectors.open, '');
+    window.setTimeout(() => toast?.removeAttribute(selectors.open), 3600);
+    return;
+  }
+
+  if (!event.target.closest('[data-ih-menu]')) {
+    closeMenus();
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeMenus();
+    closeModals();
+    closeDrawers();
+  }
+});
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => init());
+} else {
+  init();
+}
+
+export { init, openModal, closeModals };

@@ -1,0 +1,10 @@
+/index.html
+node_modules/
+coverage/
+.cache/
+.turbo/
+.vite/
+*.log
+dist/*.map
+.env
+.env.*
