@@ -46,7 +46,7 @@ Layout: container, grid, stack, cluster, app shell, sidebar layout, top bar, she
 
 Inputs: button, icon button, button group, toggle group, input, textarea, select, checkbox, radio, switch, slider, autocomplete.
 
-Data display: avatar, badge, chip, list, table, status indicator, status legend, tooltip.
+Data display: avatar, badge, chip, list, table, status indicator, status legend, timeline, tooltip.
 
 Feedback: alert, progress, spinner, skeleton, snackbar.
 

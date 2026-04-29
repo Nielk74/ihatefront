@@ -35,10 +35,10 @@ Sizes:
 
 - Use native controls before custom controls.
 - Preserve labels with `.ih-label`, `aria-label`, or visible text.
-- Do not communicate status by color alone. Use `.ih-status` text and row labels.
+- Do not communicate status by color alone. Use `.ih-status` text, row labels, legends, or a detailed table near visual summaries.
 - Use `button` elements for actions and links for navigation.
 - Keep modal and drawer close controls visible and keyboard reachable.
 
 ## Dashboard Patterns
 
-The original application example that inspired this framework should not be committed as a repo root `index.html`. Use `ih-sidebar-layout`, `ih-meta-bar`, `ih-legend`, `ih-status`, and `ih-status-table` to rebuild that class of page with reusable parts and anonymized data.
+The original application example that inspired this framework should not be committed as a repo root `index.html`. Use `ih-sidebar-layout`, `ih-meta-bar`, `ih-legend`, `ih-status`, `ih-status-table`, and `ih-timeline` to rebuild that class of page with reusable parts and anonymized data.

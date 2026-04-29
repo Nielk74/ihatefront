@@ -28,6 +28,7 @@
             <a href="#alert">Alert</a>
             <a href="#badge-chip-avatar">Badge, chip, avatar</a>
             <a href="#status">Status</a>
+            <a href="#timeline">Timeline</a>
             <a href="#list">List</a>
             <a href="#table">Table</a>
             <a href="#tooltip">Tooltip</a>
@@ -276,7 +277,7 @@
             <div>
               <p class="ih-kicker">Forms</p>
               <h2 class="ih-heading">Inputs, selects, textareas, checks, radios, switches, and sliders</h2>
-              <p class="ih-subtitle">Wrap every field in `.ih-field`, use visible labels, and keep helper text close to the control.</p>
+              <p class="ih-subtitle">Wrap every field in `.ih-field`, use visible labels, and keep helper text close to the control. Inputs, selects, checks, radios, switches, and sliders are fully styled rather than relying on browser-native defaults.</p>
             </div>
             <div class="ih-grid">
               <label class="ih-field">
@@ -284,6 +285,15 @@
                 <input class="ih-input" placeholder="Nielk74/ihatefront">
                 <span class="ih-helper">Use `.ih-input` for single-line text.</span>
               </label>
+              <div class="ih-field">
+                <span class="ih-label">Search</span>
+                <div class="ih-input-group">
+                  <span class="ih-input-addon">repo</span>
+                  <input class="ih-input" placeholder="type to filter">
+                  <span class="ih-input-addon">/main</span>
+                </div>
+                <span class="ih-helper">Use `.ih-input-group` for compact prefixes and suffixes.</span>
+              </div>
               <label class="ih-field">
                 <span class="ih-label">Environment</span>
                 <select class="ih-select">
@@ -311,6 +321,12 @@
   &lt;input class="ih-input" placeholder="Nielk74/ihatefront"&gt;
   &lt;span class="ih-helper"&gt;Use concise helper text.&lt;/span&gt;
 &lt;/label&gt;
+
+&lt;div class="ih-input-group"&gt;
+  &lt;span class="ih-input-addon"&gt;repo&lt;/span&gt;
+  &lt;input class="ih-input" placeholder="type to filter"&gt;
+  &lt;span class="ih-input-addon"&gt;/main&lt;/span&gt;
+&lt;/div&gt;
 
 &lt;label class="ih-control-row"&gt;
   &lt;input class="ih-switch" type="checkbox" checked&gt;
@@ -492,6 +508,109 @@
           </div>
         </section>
 
+        <section class="ih-section" id="timeline">
+          <div class="ih-container ih-stack ih-stack--lg">
+            <div>
+              <p class="ih-kicker">Data display</p>
+              <h2 class="ih-heading">Timeline</h2>
+              <p class="ih-subtitle">Use timeline for compact status history, deploy windows, uptime buckets, or build results. The monitor modifier creates the dense dark panel style used by operational dashboards.</p>
+            </div>
+            <div class="ih-timeline ih-timeline--monitor" aria-label="History over the last 24 hours">
+              <div class="ih-timeline__header">
+                <h3 class="ih-timeline__title">History - Last 24 h</h3>
+                <span class="ih-timeline__meta">5 min buckets</span>
+              </div>
+              <div class="ih-timeline__rows">
+                <div class="ih-timeline__row">
+                  <span class="ih-timeline__row-label">api</span>
+                  <div class="ih-timeline__scroll">
+                    <div class="ih-timeline__track" aria-label="API history">
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--warning"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success" data-ih-current data-label="N"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--warning"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--warning"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--warning"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--warning"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="ih-timeline__row">
+                  <span class="ih-timeline__row-label">workers</span>
+                  <div class="ih-timeline__scroll">
+                    <div class="ih-timeline__track" aria-label="Worker history">
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success" data-ih-current data-label="N"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--unknown"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--unknown"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--unknown"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--success"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--unknown"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--danger"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--unknown"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ih-timeline__legend" aria-label="Timeline legend">
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--success">success</span>
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--warning">warning</span>
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--danger">failure</span>
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--unknown">unknown</span>
+              </div>
+            </div>
+            <pre class="ih-code"><code>&lt;div class="ih-timeline ih-timeline--monitor" aria-label="History over the last 24 hours"&gt;
+  &lt;div class="ih-timeline__header"&gt;
+    &lt;h3 class="ih-timeline__title"&gt;History - Last 24 h&lt;/h3&gt;
+    &lt;span class="ih-timeline__meta"&gt;5 min buckets&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="ih-timeline__row"&gt;
+    &lt;span class="ih-timeline__row-label"&gt;api&lt;/span&gt;
+    &lt;div class="ih-timeline__scroll"&gt;
+      &lt;div class="ih-timeline__track"&gt;
+        &lt;span class="ih-timeline__segment ih-timeline__segment--success"&gt;&lt;/span&gt;
+        &lt;span class="ih-timeline__segment ih-timeline__segment--warning" data-ih-current data-label="N"&gt;&lt;/span&gt;
+        &lt;span class="ih-timeline__segment ih-timeline__segment--danger"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <p class="ih-helper">For accessibility, give the full timeline an `aria-label` and expose detailed state changes in nearby text, a table, or a downloadable log. The colored bars are a visual summary.</p>
+          </div>
+        </section>
+
         <section class="ih-section" id="list">
           <div class="ih-container ih-stack ih-stack--lg">
             <div>
@@ -636,8 +755,8 @@
               <p class="ih-subtitle">Breadcrumbs show location. Steppers show progress through a known workflow.</p>
             </div>
             <ol class="ih-breadcrumb" aria-label="Breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Projects</a></li>
+              <li><a href="#quick-start">Home</a></li>
+              <li><a href="#layout">Projects</a></li>
               <li aria-current="page">ihatefront</li>
             </ol>
             <ol class="ih-stepper" aria-label="Release steps">

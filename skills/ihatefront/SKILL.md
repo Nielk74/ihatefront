@@ -21,8 +21,10 @@ Use this skill when building or reviewing UI that uses the `ihatefront` framewor
 
 - Buttons: combine `.ih-btn` with one variant class and one color class, such as `.ih-btn--solid.ih-btn--primary`.
 - Forms: wrap fields in `.ih-field`, use `.ih-label`, then `.ih-input`, `.ih-select`, or `.ih-textarea`, and finish with `.ih-helper` when helpful.
+- Input groups: use `.ih-input-group` and `.ih-input-addon` for compact prefixes, suffixes, and filter bars.
 - Tables: wrap tables in `.ih-table-wrap`, use `.ih-table`, and choose `.ih-table--dense` for operational dashboards.
 - Status: use `.ih-status` with explicit text. Add status classes such as `.ih-status--success` and row classes such as `.is-success`.
+- Timeline: use `.ih-timeline` for status history and `.ih-timeline--monitor` for dense operational history panels. Pair colored segments with labels, legends, or a nearby table because the bars are a visual summary.
 - Navigation: use `.ih-tabs` with WAI-ARIA tab roles. The JS plugin handles activation when `data-ih-tabs` is present.
 - Menus, modals, drawers, accordions, autocomplete, and snackbars require the matching `data-ih-*` attributes shown in `docs/index.html`.
 
@@ -43,6 +45,7 @@ For legacy operational pages, map old custom structure to:
 - Legend: `.ih-legend` and `.ih-legend__item`
 - Environment sections: `.ih-section`, `.ih-heading`, `.ih-sheet`
 - Deployment grid: `.ih-table-wrap`, `.ih-table`, `.ih-table--dense`, `.ih-status-table`
+- Status history: `.ih-timeline`, `.ih-timeline--monitor`, `.ih-timeline__segment--success`, `.ih-timeline__segment--warning`, `.ih-timeline__segment--danger`, `.ih-timeline__segment--unknown`
 - Links: `.ih-link-stack`
 
 Do not copy private hostnames, database names, fake deployment versions, or monolithic inline HTML/CSS/JS examples into a public repo.
