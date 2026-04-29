@@ -41,4 +41,4 @@ Sizes:
 
 ## Dashboard Patterns
 
-The original application example that inspired this framework should not be committed as a repo root `index.html`. Use `ih-sidebar-layout`, `ih-meta-bar`, `ih-legend`, `ih-status`, `ih-status-table`, and `ih-timeline` to rebuild that class of page with reusable parts and anonymized data.
+The original application example that inspired this framework should not be committed as a repo root `index.html`. Use `ih-sidebar-layout`, `ih-meta-bar`, `ih-legend`, `ih-status`, `ih-status-table`, and `ih-timeline` to rebuild that class of page with reusable white-theme parts and anonymized data.

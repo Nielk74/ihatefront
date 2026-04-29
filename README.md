@@ -80,7 +80,7 @@ The docs intentionally use the compiled files from `dist/` so broken packaging i
 
 ## Design Principles
 
-- Light theme first. No dark theme API is exposed yet.
+- White theme only. No alternate theme API is exposed.
 - Use global variants: `solid`, `soft`, `outlined`, and `plain`.
 - Use semantic colors: `neutral`, `primary`, `success`, `warning`, and `danger`.
 - Keep component classes composable and HTML-first.
