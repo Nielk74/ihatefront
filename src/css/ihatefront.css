@@ -854,10 +854,6 @@ pre {
   min-width: 0;
 }
 
-.ih-alert > :last-child:not(:first-child) {
-  margin-left: auto;
-}
-
 .ih-alert--primary {
   --ih-alert-accent: var(--ih-primary);
   --ih-alert-border: var(--ih-primary-border);

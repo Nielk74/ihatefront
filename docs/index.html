@@ -441,7 +441,9 @@
                   <strong class="ih-alert__title">Build passed</strong>
                   <p class="ih-alert__message">The release artifacts were generated from source.</p>
                 </div>
-                <button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-dismiss=".ih-alert" aria-label="Dismiss">x</button>
+                <div class="ih-alert__action">
+                  <button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-dismiss=".ih-alert" aria-label="Dismiss">x</button>
+                </div>
               </div>
               <div class="ih-alert ih-alert--danger">
                 <span class="ih-alert__icon">!</span>
@@ -467,8 +469,10 @@
     &lt;strong class="ih-alert__title"&gt;Build passed&lt;/strong&gt;
     &lt;p class="ih-alert__message"&gt;The release artifacts were generated.&lt;/p&gt;
   &lt;/div&gt;
-  &lt;button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral"
-    data-ih-dismiss=".ih-alert" aria-label="Dismiss"&gt;x&lt;/button&gt;
+  &lt;div class="ih-alert__action"&gt;
+    &lt;button class="ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral"
+      data-ih-dismiss=".ih-alert" aria-label="Dismiss"&gt;x&lt;/button&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;div class="ih-alert ih-alert--danger"&gt;
