@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STAR - Deployments status mock</title>
+    <link rel="stylesheet" href="dist/ihatefront.css">
+    <script type="module" src="dist/ihatefront.js"></script>
+</head>
+<body>
+<div class="ih-sidebar-layout">
+    <aside class="ih-sidebar">
+        <div class="ih-stack" style="padding: 1rem; --ih-stack-gap: 1.25rem;">
+            <div class="ih-sidebar-section">
+                <span class="ih-sidebar-label">TeamCity agents</span>
+                <div>
+                    <div class="ih-agent">ci.build.agent.01</div>
+                    <div class="ih-agent">ci.build.agent.02</div>
+                </div>
+                <a class="ih-link-stack" href="#">Troubleshoot</a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="ih-main">
+        <div class="ih-dashboard-header">
+            <div class="ih-dashboard-header__top">
+                <div>
+                    <p class="ih-kicker">CI/CD operations</p>
+                    <h1 class="ih-title">STAR - Deployments status</h1>
+                </div>
+                <div class="ih-dashboard-header__meta">
+                    <span>Deployments <strong id="deployment-age"></strong></span>
+                    <span>DB restore <strong id="db-age"></strong></span>
+                </div>
+            </div>
+            <div class="ih-dashboard-summary" id="dashboard-summary"></div>
+        </div>
+
+        <div class="ih-container ih-stack" style="padding-bottom: 3rem;">
+            <div id="environments"></div>
+        </div>
+    </main>
+</div>
+
+<div class="ih-modal" id="timeline-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="timeline-modal-title" aria-describedby="timeline-modal-desc">
+    <div class="ih-modal__dialog ih-modal__dialog--lg">
+        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">x</button>
+        <h2 class="ih-modal__title" id="timeline-modal-title">Deployment timeline</h2>
+        <p class="ih-modal__description" id="timeline-modal-desc"></p>
+        <div class="ih-modal__content ih-stack">
+            <div id="timeline-modal-chart" class="ih-timeline ih-timeline--dense" aria-label="Detailed timeline"></div>
+            <div class="ih-table-wrap">
+                <table class="ih-table ih-table--dense" id="timeline-modal-table">
+                    <thead>
+                        <tr>
+                            <th>Stage</th>
+                            <th>Status</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Duration</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="ih-grid" style="--ih-grid-min: 16rem;">
+                <label class="ih-field">
+                    <span class="ih-label">Filter by stage</span>
+                    <div class="ih-autocomplete" data-ih-autocomplete>
+                        <input class="ih-input" data-ih-autocomplete-input aria-label="Choose stage" placeholder="All stages" id="timeline-filter">
+                        <ul class="ih-autocomplete__list" data-ih-autocomplete-list id="timeline-filter-list"></ul>
+                    </div>
+                </label>
+                <label class="ih-field">
+                    <span class="ih-label">Export format</span>
+                    <div class="ih-autocomplete" data-ih-autocomplete>
+                        <input class="ih-input" data-ih-autocomplete-input aria-label="Choose format" value="JSON" id="timeline-export-format">
+                        <ul class="ih-autocomplete__list" data-ih-autocomplete-list>
+                            <li class="ih-autocomplete__option" data-value="JSON">JSON</li>
+                            <li class="ih-autocomplete__option" data-value="CSV">CSV</li>
+                            <li class="ih-autocomplete__option" data-value="XML">XML</li>
+                        </ul>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="ih-modal__actions">
+            <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-close>Close</button>
+            <button class="ih-btn ih-btn--solid ih-btn--primary" id="timeline-export-btn">Export</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const pageLoadedAt = Date.now();
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    const timelineSlotCount = 12;
+    const jobOrder = ['deployment', 'services', 'deprod', 'hudson'];
+
+    const environments = [
+        {
+            name: 'DEV',
+            timeline: [
+                { label: 'Deployment', status: 'success', start: '19-FEB-26 04:11', end: '19-FEB-26 08:02', link: '#build/dev-all' },
+                { label: 'Services', status: 'partial', start: '19-FEB-26 04:38', end: '19-FEB-26 08:15', link: '#services/dev-all' },
+                { label: 'Deprod', status: 'success', start: '19-FEB-26 04:42', end: '19-FEB-26 05:01', link: '#deprod/dev-all' },
+                { label: 'Hudson', status: 'success', start: '19-FEB-26 05:01', end: '19-FEB-26 05:08', link: '#hudson/dev-all' }
+            ],
+            servers: [
+                {
+                    status: 'success',
+                    name: 'DEV1',
+                    star: '68.0.0.5396',
+                    polaris: '68.0.0.5396',
+                    echo: 'Running',
+                    dbName: 'STA1UKD',
+                    restore: '21-DEC-25',
+                    started: '19-FEB-26, 04:11:38',
+                    jobs: {
+                        deployment: { status: 'success', start: '19-FEB-26 04:11', end: '19-FEB-26 04:38', link: '#build/dev1' },
+                        services: { status: 'success', start: '19-FEB-26 04:38', end: '19-FEB-26 04:42', link: '#services/dev1' },
+                        deprod: { status: 'success', start: '19-FEB-26 04:42', end: '19-FEB-26 05:01', link: '#deprod/dev1' },
+                        hudson: { status: 'success', start: '19-FEB-26 05:01', end: '19-FEB-26 05:08', link: '#hudson/dev1' }
+                    }
+                },
+                {
+                    status: 'success',
+                    name: 'DEV2',
+                    star: '68.0.0.5396',
+                    polaris: '68.0.0.5396',
+                    echo: 'Running',
+                    dbName: 'STA2UKD',
+                    restore: '29-JAN-26',
+                    started: '18-FEB-26, 23:06:00',
+                    jobs: {
+                        deployment: { status: 'success', start: '18-FEB-26 23:06', end: '19-FEB-26 00:12', link: '#build/dev2' },
+                        services: { status: 'success', start: '19-FEB-26 00:12', end: '19-FEB-26 00:18', link: '#services/dev2' },
+                        deprod: { status: 'success', start: '19-FEB-26 00:18', end: '19-FEB-26 00:41', link: '#deprod/dev2' },
+                        hudson: { status: 'success', start: '19-FEB-26 00:41', end: '19-FEB-26 00:49', link: '#hudson/dev2' }
+                    }
+                },
+                {
+                    status: 'success',
+                    name: 'DEV4',
+                    star: '67.0.0.5267',
+                    polaris: '67.0.0.5267',
+                    echo: 'Running',
+                    dbName: 'STA4UKD',
+                    restore: '14-FEB-26',
+                    started: '18-FEB-26, 22:30:00',
+                    jobs: {
+                        deployment: { status: 'success', start: '18-FEB-26 22:30', end: '18-FEB-26 23:05', link: '#build/dev4' },
+                        services: { status: 'success', start: '18-FEB-26 23:05', end: '18-FEB-26 23:10', link: '#services/dev4' },
+                        deprod: { status: 'success', start: '18-FEB-26 23:10', end: '18-FEB-26 23:32', link: '#deprod/dev4' },
+                        hudson: { status: 'success', start: '18-FEB-26 23:32', end: '19-FEB-26 00:02', link: '#hudson/dev4' }
+                    }
+                },
+                {
+                    status: 'partial',
+                    name: 'DEV5',
+                    star: '67.0.0.5267',
+                    polaris: '67.0.0.5267',
+                    echo: 'Running',
+                    dbName: 'STA5UKD',
+                    restore: '14-FEB-26',
+                    started: '19-FEB-26, 07:36:17',
+                    jobs: {
+                        deployment: { status: 'success', start: '19-FEB-26 07:36', end: '19-FEB-26 08:02', link: '#build/dev5' },
+                        services: { status: 'failure', start: '19-FEB-26 08:02', end: '19-FEB-26 08:15', link: '#services/dev5' },
+                        deprod: { status: 'unknown', start: '-', end: '-', link: '#' },
+                        hudson: { status: 'unknown', start: '-', end: '-', link: '#' }
+                    }
+                }
+            ]
+        },
+        {
+            name: 'UAT',
+            timeline: [
+                { label: 'Deployment', status: 'failure', start: '19-FEB-26 01:45', end: '20-FEB-26 02:14', link: '#build/uat-all' },
+                { label: 'Services', status: 'success', start: '19-FEB-26 01:45', end: '19-FEB-26 01:50', link: '#services/uat-all' },
+                { label: 'Deprod', status: 'unknown', start: '-', end: '-', link: '#' },
+                { label: 'Hudson', status: 'unknown', start: '-', end: '-', link: '#' }
+            ],
+            servers: [
+                {
+                    status: 'building',
+                    name: 'UAT1',
+                    star: '68.0.0.5401',
+                    polaris: '68.0.0.5399',
+                    echo: 'Running',
+                    dbName: 'STA1UKU',
+                    restore: '15-FEB-26',
+                    started: '20-FEB-26, 02:14:10',
+                    jobs: {
+                        deployment: { status: 'building', start: '20-FEB-26 02:14', end: '...', link: '#build/uat1' },
+                        services: { status: 'unknown', start: '-', end: '-', link: '#' },
+                        deprod: { status: 'unknown', start: '-', end: '-', link: '#' },
+                        hudson: { status: 'unknown', start: '-', end: '-', link: '#' }
+                    }
+                },
+                {
+                    status: 'failure',
+                    name: 'UAT2',
+                    star: '67.0.0.5267',
+                    polaris: '67.0.0.5267',
+                    echo: 'Running',
+                    dbName: 'STA2UKU',
+                    restore: '15-FEB-26',
+                    started: '19-FEB-26, 01:45:03',
+                    jobs: {
+                        deployment: { status: 'failure', start: '19-FEB-26 01:45', end: '19-FEB-26 02:10', link: '#build/uat2' },
+                        services: { status: 'success', start: '19-FEB-26 01:45', end: '19-FEB-26 01:50', link: '#services/uat2' },
+                        deprod: { status: 'unknown', start: '-', end: '-', link: '#' },
+                        hudson: { status: 'unknown', start: '-', end: '-', link: '#' }
+                    }
+                },
+                {
+                    status: 'unknown',
+                    name: 'UAT3',
+                    star: '-',
+                    polaris: '-',
+                    echo: 'Unknown',
+                    dbName: 'STA3UKU',
+                    restore: '-',
+                    started: '-',
+                    jobs: {
+                        deployment: { status: 'unknown', start: '-', end: '-', link: '#' },
+                        services: { status: 'unknown', start: '-', end: '-', link: '#' },
+                        deprod: { status: 'unknown', start: '-', end: '-', link: '#' },
+                        hudson: { status: 'unknown', start: '-', end: '-', link: '#' }
+                    }
+                }
+            ]
+        }
+    ];
+
+    function splitDate(value) {
+        return String(value).replace(', ', ',<br>');
+    }
+
+    function statusClass(status) {
+        const map = { success: 'is-success', partial: 'is-partial', failure: 'is-failure', building: 'is-building', unknown: 'is-unknown' };
+        return map[status] || '';
+    }
+
+    function segClass(status) {
+        const map = {
+            success: 'ih-timeline__segment--success',
+            partial: 'ih-timeline__segment--warning',
+            failure: 'ih-timeline__segment--danger',
+            building: 'ih-timeline__segment--building',
+            unknown: 'ih-timeline__segment--unknown'
+        };
+        return map[status] || 'ih-timeline__segment--unknown';
+    }
+
+    function statusLabel(status) {
+        return status.charAt(0).toUpperCase() + status.slice(1);
+    }
+
+    function statusBadge(text) {
+        const cls = text.toLowerCase();
+        return `<span class="ih-status ih-status--${cls}">
+            <span class="ih-status-icon ih-status-icon--${cls}" data-ih-tooltip="${text}" tabindex="0" aria-label="${text}"></span>
+            <span>${text}</span>
+        </span>`;
+    }
+
+    function statusIcon(status, label = statusLabel(status)) {
+        return `<span class="ih-status-icon ih-status-icon--${status}" data-ih-tooltip="${label}" tabindex="0" aria-label="${label}"></span>`;
+    }
+
+    function worstStatus(statuses) {
+        const priority = ['failure', 'building', 'partial', 'unknown', 'success'];
+        return priority.find(status => statuses.includes(status)) || 'unknown';
+    }
+
+    function parseTimestamp(ts) {
+        if (!ts || ts === '-' || ts === '...') return null;
+        const [d, t] = ts.split(' ');
+        const [dd, mmStr, yyyy] = d.split('-');
+        const [hh, mi] = t.split(':');
+        const mm = months.indexOf(mmStr.substring(0, 3).toUpperCase()) + 1;
+        return new Date(yyyy, mm - 1, parseInt(dd), parseInt(hh), parseInt(mi)).getTime();
+    }
+
+    function jobsFor(server) {
+        const labels = { deployment: 'Deployment', services: 'Services', deprod: 'Deprod', hudson: 'Hudson' };
+        return jobOrder.map(key => ({ key, label: labels[key], ...server.jobs[key] }));
+    }
+
+    function jobsColumn(server) {
+        const jobs = jobsFor(server);
+        const rows = jobs.map(j => {
+            const badge = statusBadge(statusLabel(j.status));
+            const link = `<a class="ih-external-link" href="${j.link}" target="_blank" rel="noopener" aria-label="Open ${j.label} details">↗</a>`;
+            const ts = (j.start !== '-' && j.end) ? j.start + ' \u2192 ' + j.end : '-';
+            return `<div class="ih-job-row">
+                <span class="ih-job-label">${j.label}</span>
+                ${badge}
+                <span class="ih-job-time">${ts}</span>
+                ${link}
+            </div>`;
+        }).join('');
+        return `<div class="ih-job-list">${rows}</div>`;
+    }
+
+    function resolveTimelineWindow(jobs) {
+        const times = jobs.map(j => ({ ...j, ts: parseTimestamp(j.start) })).filter(j => j.ts != null);
+        if (times.length === 0) return null;
+        const allTimes = times.map(j => j.ts).concat(jobs.map(j => parseTimestamp(j.end)).filter(Boolean));
+        const minTime = Math.min(...allTimes);
+        const maxTime = Math.max(...allTimes);
+        return {
+            minTime,
+            maxTime: maxTime > minTime ? maxTime : minTime + 60 * 60 * 1000
+        };
+    }
+
+    function dominantStatus(statuses) {
+        const priority = ['failure', 'building', 'partial', 'success', 'unknown'];
+        return priority.find(status => statuses.includes(status)) || 'unknown';
+    }
+
+    function timelineSlots(jobs, label, sharedWindow) {
+        const window = sharedWindow || resolveTimelineWindow(jobs);
+        if (!window) return '<span class="ih-text-muted">-</span>';
+
+        const slotWidth = (window.maxTime - window.minTime) / timelineSlotCount;
+        const slots = Array.from({ length: timelineSlotCount }, (_, index) => {
+            const slotStart = window.minTime + index * slotWidth;
+            const slotEnd = slotStart + slotWidth;
+            const overlaps = jobs.filter(j => {
+                const start = parseTimestamp(j.start);
+                if (!start) return false;
+                const end = parseTimestamp(j.end) || window.maxTime;
+                return start < slotEnd && end > slotStart;
+            });
+            const status = dominantStatus(overlaps.map(j => j.status));
+            const title = overlaps.length
+                ? `${label} slot ${index + 1}: ${overlaps.map(j => `${j.label} ${j.status}`).join(', ')}`
+                : `${label} slot ${index + 1}: no activity`;
+            return `<span class="ih-timeline__segment ${segClass(status)}" title="${title}"></span>`;
+        }).join('');
+
+        return slots;
+    }
+
+    function timelineCell(server) {
+        const jobs = jobsFor(server);
+        return `<div class="ih-timeline ih-timeline--dense" style="cursor:pointer;" data-ih-timeline-server="${server.name}" data-ih-timeline-env="${findEnvByName(server)}">
+            <div class="ih-timeline__track ih-timeline__track--slots" aria-label="${server.name} deployment timeline">${timelineSlots(jobs, server.name)}</div>
+        </div>`;
+    }
+
+    function findEnvByName(server) {
+        return environments.find(e => e.servers.some(s => s.name === server.name))?.name || '';
+    }
+
+    function renderSummary() {
+        const servers = environments.flatMap(env => env.servers);
+        const status = worstStatus(servers.map(server => server.status));
+        const running = servers.filter(server => server.echo === 'Running').length;
+        document.getElementById('dashboard-summary').innerHTML = `
+            <span class="ih-summary-pill">${statusBadge(statusLabel(status))}<strong>${servers.length}</strong> servers</span>
+            <span class="ih-summary-pill"><strong>${environments.length}</strong> environments</span>
+            <span class="ih-summary-pill"><strong>${running}</strong> echo running</span>
+        `;
+    }
+
+    function envHeader(env) {
+        const status = worstStatus(env.servers.map(server => server.status));
+        const activeJobs = env.servers.flatMap(server => jobsFor(server)).filter(job => job.status !== 'unknown').length;
+        return `<div class="ih-env-header">
+            <div class="ih-env-header__title">
+                <h2 class="ih-heading">${env.name} environment</h2>
+                ${statusBadge(statusLabel(status))}
+            </div>
+            <div class="ih-env-header__meta">
+                <span class="ih-summary-pill"><strong>${env.servers.length}</strong> servers</span>
+                <span class="ih-summary-pill"><strong>${activeJobs}</strong> active jobs</span>
+            </div>
+        </div>`;
+    }
+
+    function render() {
+        document.getElementById('environments').innerHTML = environments.map(env => `
+            <section class="ih-section">
+                ${envHeader(env)}
+                <div class="ih-table-wrap">
+                    <table class="ih-table ih-table--dense ih-status-table">
+                        <thead>
+                            <tr>
+                                <th>Server</th>
+                                <th>STAR release</th>
+                                <th>Polaris <span class="ih-tooltip" tabindex="0" data-ih-tooltip="Version might differ due to release cut or unchanged STAR sources.">i</span></th>
+                                <th>Echo</th>
+                                <th>DB name</th>
+                                <th>DB restore</th>
+                                <th>Started (GMT)</th>
+                                <th>Timeline</th>
+                                <th>Jobs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${env.servers.map(server => `
+                                <tr class="${statusClass(server.status)}">
+                                    <td><span class="ih-server-name">${statusIcon(server.status)}${server.name}</span></td>
+                                    <td>${server.star}</td>
+                                    <td>${server.polaris}</td>
+                                    <td>${server.echo}</td>
+                                    <td>${server.dbName}</td>
+                                    <td>${server.restore}</td>
+                                    <td>${splitDate(server.started)}</td>
+                                    <td>${timelineCell(server)}</td>
+                                    <td>${jobsColumn(server)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        `).join('');
+
+        document.querySelectorAll('[data-ih-timeline-server]').forEach(el => {
+            el.addEventListener('click', () => openServerTimelineModal(el.dataset.ihTimelineServer, el.dataset.ihTimelineEnv));
+        });
+        renderSummary();
+    }
+
+    function timeAgo(timestamp) {
+        const seconds = Math.max(0, Math.round((Date.now() - timestamp) / 1000));
+        if (seconds < 60) return 'just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return minutes + ' minute' + (minutes === 1 ? '' : 's') + ' ago';
+        const hours = Math.floor(minutes / 60);
+        return hours + ' hour' + (hours === 1 ? '' : 's') + ' ago';
+    }
+
+    function refreshAges() {
+        document.getElementById('deployment-age').textContent = timeAgo(pageLoadedAt - 13 * 60 * 1000);
+        document.getElementById('db-age').textContent = timeAgo(pageLoadedAt - 26 * 60 * 1000);
+    }
+
+    function calcDuration(start, end) {
+        if (start === '-' || end === '-') return '-';
+        const [d1, t1] = start.split(' ');
+        const [d2, t2] = end.split(' ');
+        const [dd1, mm1, yyyy1] = d1.split('-').map((p, i) => i === 1 ? months.indexOf(p.substring(0, 3).toUpperCase()) + 1 : p);
+        const [dd2, mm2, yyyy2] = d2.split('-').map((p, i) => i === 1 ? months.indexOf(p.substring(0, 3).toUpperCase()) + 1 : p);
+        const s1 = new Date(yyyy1, mm1 - 1, parseInt(dd1), ...t1.split(':').map(Number));
+        const s2 = new Date(yyyy2, mm2 - 1, parseInt(dd2), ...t2.split(':').map(Number));
+        const diff = Math.round((s2 - s1) / 60000);
+        if (diff < 60) return diff + 'm';
+        return Math.floor(diff / 60) + 'h ' + (diff % 60) + 'm';
+    }
+
+    function findEnv(name) {
+        return environments.find(e => e.name === name);
+    }
+
+    function findServer(serverName) {
+        for (const env of environments) {
+            const srv = env.servers.find(s => s.name === serverName);
+            if (srv) return { server: srv, env };
+        }
+        return null;
+    }
+
+    function openServerTimelineModal(serverName, envName) {
+        const result = findServer(serverName);
+        if (!result) return;
+        const { server, env } = result;
+
+        const modal = document.getElementById('timeline-modal');
+        document.getElementById('timeline-modal-title').textContent = `${envName} / ${serverName} — Job timeline`;
+        document.getElementById('timeline-modal-desc').textContent = `4 jobs  |  Click a stage link for build details`;
+
+        const jobs = jobsFor(server);
+        const timelineWindow = resolveTimelineWindow(jobs);
+
+        const chart = document.getElementById('timeline-modal-chart');
+        if (!timelineWindow) {
+            chart.innerHTML = '<p class="ih-text-muted">No job data available</p>';
+        } else {
+            const rows = jobs.map(j => {
+                const slots = timelineSlots([j], `${serverName} ${j.label}`, timelineWindow);
+                return `<div class="ih-timeline__row">
+                    <span class="ih-timeline__row-label">${j.label}</span>
+                    <div class="ih-timeline__scroll">
+                        <div class="ih-timeline__track ih-timeline__track--slots">${slots}</div>
+                    </div>
+                </div>`;
+            }).join('');
+            chart.innerHTML = `<div class="ih-timeline__rows">${rows}</div>
+            <div class="ih-timeline__legend">
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--success">success</span>
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--warning">partial</span>
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--building">building</span>
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--danger">failure</span>
+                <span class="ih-timeline__legend-item ih-timeline__legend-item--unknown">unknown</span>
+            </div>`;
+        }
+
+        const tbody = document.querySelector('#timeline-modal-table tbody');
+        tbody.innerHTML = jobs.map(j => `
+            <tr class="${statusClass(j.status)}">
+                <td>${j.label}</td>
+                <td>${statusBadge(statusLabel(j.status))}</td>
+                <td>${j.start}</td>
+                <td>${j.end}</td>
+                <td>${calcDuration(j.start, j.end)}</td>
+                <td><a href="${j.link}" target="_blank" rel="noopener">${j.link} ↗</a></td>
+            </tr>
+        `).join('');
+
+        const filterList = document.getElementById('timeline-filter-list');
+        filterList.innerHTML = jobs.map(j => `<li class="ih-autocomplete__option" data-value="${j.label}">${j.label}</li>`).join('');
+
+        const exportBtn = document.getElementById('timeline-export-btn');
+        exportBtn.onclick = () => {
+            const fmt = document.getElementById('timeline-export-format').value || 'JSON';
+            alert(`Exporting ${envName}/${serverName} timeline as ${fmt}`);
+        };
+
+        modal.setAttribute('data-ih-open', '');
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
+    render();
+    refreshAges();
+    setInterval(refreshAges, 30000);
+</script>
+</body>
+</html>
