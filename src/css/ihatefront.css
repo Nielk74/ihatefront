@@ -484,8 +484,8 @@ pre {
 }
 
 .ih-icon-btn svg {
-  width: 1rem;
-  height: 1rem;
+  width: 0.875rem;
+  height: 0.875rem;
   flex: 0 0 auto;
   pointer-events: none;
 }
@@ -2153,6 +2153,11 @@ pre {
   position: absolute;
   top: var(--ih-space-3);
   right: var(--ih-space-3);
+}
+
+.ih-modal__close svg {
+  width: 0.8125rem;
+  height: 0.8125rem;
 }
 
 .ih-drawer {
