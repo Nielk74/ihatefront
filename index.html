@@ -366,6 +366,56 @@
             border-radius: 4px;
         }
 
+        .ih-tooltip__bubble {
+            z-index: calc(var(--ih-z-modal) + 1);
+        }
+
+        #timeline-modal .ih-timeline__segment[data-ih-tooltip]::before {
+            content: "";
+            position: absolute;
+            top: 0.18rem;
+            right: 0.22rem;
+            width: 0.32rem;
+            height: 0.32rem;
+            border-radius: 999px;
+            background: #facc15;
+            box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.18);
+        }
+
+        .ops-timeline-axis {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.4rem;
+            margin-bottom: 0.35rem;
+            padding-left: 0.2rem;
+            color: #475569;
+            font-size: 0.72rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ops-timeline-axis span {
+            text-align: center;
+        }
+
+        .ops-timeline-axis span:first-child {
+            text-align: left;
+        }
+
+        .ops-timeline-axis span:last-child {
+            text-align: right;
+        }
+
+        .ops-timeline-note {
+            padding: 0.85rem 1.5rem 1rem;
+            border-top: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .ops-timeline-note .ih-alert {
+            box-shadow: none;
+        }
+
         .ih-job-list {
             min-width: 16rem;
         }
@@ -409,7 +459,40 @@
         }
 
         .ih-modal__dialog {
+            display: grid;
+            grid-template-rows: auto minmax(0, 1fr) auto;
+            gap: 0;
             border-radius: 8px;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .ih-modal__header {
+            position: relative;
+            display: grid;
+            gap: 0.55rem;
+            padding: 1.45rem 4.25rem 1.1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+
+        .ih-modal__body {
+            min-height: 0;
+            overflow: auto;
+            padding: 1rem 1.5rem 1.25rem;
+            background: #ffffff;
+        }
+
+        .ih-modal__actions {
+            margin: 0;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .ih-modal__description {
+            font-size: 0.875rem;
+            line-height: 1.45;
         }
 
         .ih-modal__close {
@@ -535,14 +618,16 @@
 
 <div class="ih-modal" id="deploy-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="deploy-modal-title" aria-describedby="deploy-modal-desc">
     <div class="ih-modal__dialog">
-        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
-            </svg>
-        </button>
-        <h2 class="ih-modal__title" id="deploy-modal-title">Deploy environment</h2>
-        <p class="ih-modal__description" id="deploy-modal-desc">Select the source branch for the deployment request.</p>
-        <div class="ih-modal__content ih-stack">
+        <div class="ih-modal__header">
+            <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+                </svg>
+            </button>
+            <h2 class="ih-modal__title" id="deploy-modal-title">Deploy environment</h2>
+            <p class="ih-modal__description" id="deploy-modal-desc">Select the source branch for the deployment request.</p>
+        </div>
+        <div class="ih-modal__body ih-modal__content ih-stack">
             <div class="ops-deploy-summary">
                 <span>Environment <strong id="deploy-env-name"></strong></span>
                 <span>Server <strong id="deploy-server-name"></strong></span>
@@ -567,54 +652,26 @@
 
 <div class="ih-modal" id="timeline-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="timeline-modal-title" aria-describedby="timeline-modal-desc">
     <div class="ih-modal__dialog ih-modal__dialog--lg">
-        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
-            </svg>
-        </button>
-        <h2 class="ih-modal__title" id="timeline-modal-title">Deployment timeline</h2>
-        <p class="ih-modal__description" id="timeline-modal-desc"></p>
-        <div class="ih-modal__content ih-stack">
-            <div id="timeline-modal-chart" class="ih-timeline ih-timeline--dense" aria-label="Detailed timeline"></div>
-            <div class="ih-table-wrap">
-                <table class="ih-table ih-table--dense" id="timeline-modal-table">
-                    <thead>
-                        <tr>
-                            <th>Stage</th>
-                            <th>Status</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Duration</th>
-                            <th>Link</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-            <div class="ih-grid" style="--ih-grid-min: 16rem;">
-                <label class="ih-field">
-                    <span class="ih-label">Filter by stage</span>
-                    <div class="ih-autocomplete" data-ih-autocomplete>
-                        <input class="ih-input" data-ih-autocomplete-input aria-label="Choose stage" placeholder="All stages" id="timeline-filter">
-                        <ul class="ih-autocomplete__list" data-ih-autocomplete-list id="timeline-filter-list"></ul>
-                    </div>
-                </label>
-                <label class="ih-field">
-                    <span class="ih-label">Export format</span>
-                    <div class="ih-autocomplete" data-ih-autocomplete>
-                        <input class="ih-input" data-ih-autocomplete-input aria-label="Choose format" value="JSON" id="timeline-export-format">
-                        <ul class="ih-autocomplete__list" data-ih-autocomplete-list>
-                            <li class="ih-autocomplete__option" data-value="JSON">JSON</li>
-                            <li class="ih-autocomplete__option" data-value="CSV">CSV</li>
-                            <li class="ih-autocomplete__option" data-value="XML">XML</li>
-                        </ul>
-                    </div>
-                </label>
-            </div>
+        <div class="ih-modal__header">
+            <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+                </svg>
+            </button>
+            <h2 class="ih-modal__title" id="timeline-modal-title">Deployment timeline</h2>
+            <p class="ih-modal__description" id="timeline-modal-desc"></p>
         </div>
-        <div class="ih-modal__actions">
-            <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-close>Close</button>
-            <button class="ih-btn ih-btn--solid ih-btn--primary" id="timeline-export-btn">Export</button>
+        <div class="ih-modal__body ih-modal__content ih-stack">
+            <div id="timeline-modal-chart" class="ih-timeline ih-timeline--dense" aria-label="Detailed timeline"></div>
+        </div>
+        <div class="ops-timeline-note" id="timeline-last-note">
+            <div class="ih-alert ih-alert--primary">
+                <span class="ih-alert__icon">i</span>
+                <div class="ih-alert__content">
+                    <strong class="ih-alert__title">Last note</strong>
+                    <p class="ih-alert__message">No note recorded for this timeline.</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -667,9 +724,9 @@
                     restore: '29-JAN-26',
                     started: '18-FEB-26, 23:06:00',
                     jobs: {
-                        deployment: { status: 'success', start: '18-FEB-26 23:06', end: '19-FEB-26 00:12', link: '#build/dev2' },
-                        services: { status: 'success', start: '19-FEB-26 00:12', end: '19-FEB-26 00:18', link: '#services/dev2' },
-                        deprod: { status: 'success', start: '19-FEB-26 00:18', end: '19-FEB-26 00:41', link: '#deprod/dev2' },
+                        deployment: { status: 'success', start: '18-FEB-26 23:06', end: '19-FEB-26 00:12', link: '#build/dev2', note: { at: '18-FEB-26 23:58', author: 'M. Leroux', text: 'Release 68.0 promoted after config cache warm-up completed.' } },
+                        services: { status: 'success', start: '19-FEB-26 00:12', end: '19-FEB-26 00:18', link: '#services/dev2', note: { at: '19-FEB-26 00:16', author: 'A. Martin', text: 'Services restarted cleanly; smoke checks returned 200 on STAR and Polaris.' } },
+                        deprod: { status: 'success', start: '19-FEB-26 00:18', end: '19-FEB-26 00:41', link: '#deprod/dev2', note: { at: '19-FEB-26 00:36', author: 'S. Patel', text: 'Masking pass finished with no rejected customer rows.' } },
                         hudson: { status: 'success', start: '19-FEB-26 00:41', end: '19-FEB-26 00:49', link: '#hudson/dev2' }
                     }
                 },
@@ -700,7 +757,7 @@
                     started: '19-FEB-26, 07:36:17',
                     jobs: {
                         deployment: { status: 'success', start: '19-FEB-26 07:36', end: '19-FEB-26 08:02', link: '#build/dev5' },
-                        services: { status: 'failure', start: '19-FEB-26 08:02', end: '19-FEB-26 08:15', link: '#services/dev5' },
+                        services: { status: 'failure', start: '19-FEB-26 08:02', end: '19-FEB-26 08:15', link: '#services/dev5', note: { at: '19-FEB-26 08:14', author: 'N. Dubois', text: 'Service health check failed on payment adapter; deployment paused before Deprod.' } },
                         deprod: { status: 'unknown', start: '-', end: '-', link: '#' },
                         hudson: { status: 'unknown', start: '-', end: '-', link: '#' }
                     }
@@ -817,6 +874,43 @@
         return new Date(yyyy, mm - 1, parseInt(dd), parseInt(hh), parseInt(mi)).getTime();
     }
 
+    function escapeHtml(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function formatHour(timestamp) {
+        const date = new Date(timestamp);
+        return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+    }
+
+    function timelineHours(window) {
+        if (!window) return '';
+        const ticks = Array.from({ length: 5 }, (_, index) => {
+            const timestamp = window.minTime + ((window.maxTime - window.minTime) * index / 4);
+            return `<span>${formatHour(timestamp)}</span>`;
+        }).join('');
+        return `<div class="ops-timeline-axis" aria-label="Timeline hours">${ticks}</div>`;
+    }
+
+    function noteLabel(job) {
+        if (!job.note) return '';
+        return `${job.label} note ${job.note.at}: ${job.note.text}`;
+    }
+
+    function latestNote(jobs) {
+        return jobs
+            .filter(job => job.note)
+            .sort((a, b) => parseTimestamp(b.note.at) - parseTimestamp(a.note.at))[0] || null;
+    }
+
+    function refreshFramework(root) {
+        import('./dist/ihatefront.js').then(({ init }) => init(root));
+    }
+
     function jobsFor(server) {
         const labels = { deployment: 'Deployment', services: 'Services', deprod: 'Deprod', hudson: 'Hudson' };
         return jobOrder.map(key => ({ key, label: labels[key], ...server.jobs[key] }));
@@ -855,7 +949,7 @@
         return priority.find(status => statuses.includes(status)) || 'unknown';
     }
 
-    function timelineSlots(jobs, label, sharedWindow) {
+    function timelineSlots(jobs, label, sharedWindow, options = {}) {
         const window = sharedWindow || resolveTimelineWindow(jobs);
         if (!window) return '<span class="ih-text-muted">-</span>';
 
@@ -873,7 +967,9 @@
             const title = overlaps.length
                 ? `${label} slot ${index + 1}: ${overlaps.map(j => `${j.label} ${j.status}`).join(', ')}`
                 : `${label} slot ${index + 1}: no activity`;
-            return `<span class="ih-timeline__segment ${segClass(status)}" title="${title}"></span>`;
+            const note = options.notes ? overlaps.find(j => j.note) : null;
+            const noteAttr = note ? ` data-ih-tooltip="${escapeHtml(noteLabel(note))}" tabindex="0"` : '';
+            return `<span class="ih-timeline__segment ${segClass(status)}" title="${escapeHtml(title)}"${noteAttr}></span>`;
         }).join('');
 
         return slots;
@@ -1047,7 +1143,7 @@
             chart.innerHTML = '<p class="ih-text-muted">No job data available</p>';
         } else {
             const rows = jobs.map(j => {
-                const slots = timelineSlots([j], `${serverName} ${j.label}`, timelineWindow);
+                const slots = timelineSlots([j], `${serverName} ${j.label}`, timelineWindow, { notes: true });
                 return `<div class="ih-timeline__row">
                     <span class="ih-timeline__row-label">${j.label}</span>
                     <div class="ih-timeline__scroll">
@@ -1055,7 +1151,8 @@
                     </div>
                 </div>`;
             }).join('');
-            chart.innerHTML = `<div class="ih-timeline__rows">${rows}</div>
+            chart.innerHTML = `${timelineHours(timelineWindow)}
+            <div class="ih-timeline__rows">${rows}</div>
             <div class="ih-timeline__legend">
                 <span class="ih-timeline__legend-item ih-timeline__legend-item--success">success</span>
                 <span class="ih-timeline__legend-item ih-timeline__legend-item--warning">partial</span>
@@ -1064,27 +1161,27 @@
                 <span class="ih-timeline__legend-item ih-timeline__legend-item--unknown">unknown</span>
             </div>`;
         }
+        refreshFramework(chart);
 
-        const tbody = document.querySelector('#timeline-modal-table tbody');
-        tbody.innerHTML = jobs.map(j => `
-            <tr class="${statusClass(j.status)}">
-                <td>${j.label}</td>
-                <td>${statusBadge(statusLabel(j.status))}</td>
-                <td>${j.start}</td>
-                <td>${j.end}</td>
-                <td>${calcDuration(j.start, j.end)}</td>
-                <td><a href="${j.link}" target="_blank" rel="noopener">${j.link} - open</a></td>
-            </tr>
-        `).join('');
-
-        const filterList = document.getElementById('timeline-filter-list');
-        filterList.innerHTML = jobs.map(j => `<li class="ih-autocomplete__option" data-value="${j.label}">${j.label}</li>`).join('');
-
-        const exportBtn = document.getElementById('timeline-export-btn');
-        exportBtn.onclick = () => {
-            const fmt = document.getElementById('timeline-export-format').value || 'JSON';
-            alert(`Exporting ${envName}/${serverName} timeline as ${fmt}`);
-        };
+        const note = latestNote(jobs);
+        const notePanel = document.getElementById('timeline-last-note');
+        notePanel.innerHTML = note ? `
+            <div class="ih-alert ih-alert--primary">
+                <span class="ih-alert__icon">i</span>
+                <div class="ih-alert__content">
+                    <strong class="ih-alert__title">Last note - ${escapeHtml(note.label)} - ${escapeHtml(note.note.at)}</strong>
+                    <p class="ih-alert__message">${escapeHtml(note.note.text)} (${escapeHtml(note.note.author)})</p>
+                </div>
+            </div>
+        ` : `
+            <div class="ih-alert ih-alert--primary">
+                <span class="ih-alert__icon">i</span>
+                <div class="ih-alert__content">
+                    <strong class="ih-alert__title">Last note</strong>
+                    <p class="ih-alert__message">No note recorded for ${escapeHtml(envName)} / ${escapeHtml(serverName)}.</p>
+                </div>
+            </div>
+        `;
 
         modal.setAttribute('data-ih-open', '');
         modal.setAttribute('aria-hidden', 'false');
