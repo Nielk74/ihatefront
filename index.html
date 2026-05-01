@@ -6,46 +6,525 @@
     <title>STAR - Deployments status mock</title>
     <link rel="stylesheet" href="dist/ihatefront.css">
     <script type="module" src="dist/ihatefront.js"></script>
+    <style>
+        :root {
+            --ih-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+            --ih-font-mono: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+            --ih-canvas: #f4f7fb;
+            --ih-surface: #ffffff;
+            --ih-surface-subtle: #f7f9fc;
+            --ih-border: #d8e2ef;
+            --ih-border-strong: #b7c7d9;
+            --ih-text: #172033;
+            --ih-muted: #65738a;
+            --ih-muted-strong: #43516a;
+            --ih-primary: #1e40af;
+            --ih-primary-soft: #dbeafe;
+            --ih-primary-border: #93c5fd;
+            --ih-success: #15803d;
+            --ih-warning: #d97706;
+            --ih-danger: #dc2626;
+            --ih-info: #2563eb;
+            --ih-focus: 0 0 0 3px rgba(37, 99, 235, 0.22);
+            --ih-container: 1320px;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(180deg, rgba(219, 234, 254, 0.62), transparent 19rem),
+                var(--ih-canvas);
+        }
+
+        .ih-main {
+            background: transparent;
+        }
+
+        .ops-page {
+            min-height: 100vh;
+        }
+
+        .ih-dashboard-header {
+            gap: 1rem;
+            padding: 1.15rem clamp(1rem, 2.4vw, 2rem) 1rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.24);
+            background: rgba(248, 250, 252, 0.86);
+            box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+        }
+
+        .ops-header-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(22rem, 34rem);
+            gap: 1rem;
+            width: min(100%, var(--ih-container));
+            margin-inline: auto;
+        }
+
+        .ih-dashboard-header__top {
+            align-items: center;
+        }
+
+        .ih-dashboard-header__meta {
+            align-items: center;
+        }
+
+        .ih-title {
+            font-size: clamp(1.45rem, 1.15rem + 1vw, 2.35rem);
+            font-weight: 800;
+        }
+
+        .ih-kicker {
+            color: #1e40af;
+            letter-spacing: 0;
+        }
+
+        .ops-agent-panel {
+            display: grid;
+            gap: 0.75rem;
+            align-self: stretch;
+            padding: 0.9rem;
+            border: 1px solid rgba(220, 38, 38, 0.18);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+        }
+
+        .ops-agent-panel__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .ops-agent-panel__title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--ih-text);
+            font-size: 0.8125rem;
+            font-weight: 850;
+        }
+
+        .ops-agent-panel__meta {
+            color: var(--ih-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .ops-agent-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+            gap: 0.45rem;
+            max-height: 8.5rem;
+            overflow: auto;
+        }
+
+        .ops-agent-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 2rem;
+            padding: 0 0.55rem;
+            border: 1px solid #fecaca;
+            border-radius: 7px;
+            background: #fff1f1;
+            color: #7f1d1d;
+            font-family: var(--ih-font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .ops-bad-icon {
+            position: relative;
+            display: inline-grid;
+            place-items: center;
+            width: 1rem;
+            height: 1rem;
+            flex: 0 0 1rem;
+            border: 1px solid #ef4444;
+            border-radius: 999px;
+            color: #dc2626;
+        }
+
+        .ops-bad-icon::before,
+        .ops-bad-icon::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0.48rem;
+            height: 1.5px;
+            border-radius: 999px;
+            background: currentColor;
+            transform-origin: center;
+        }
+
+        .ops-bad-icon::before { transform: translate(-50%, -50%) rotate(45deg); }
+        .ops-bad-icon::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
+        .ops-content {
+            padding-top: 1.25rem;
+        }
+
+        .ih-section {
+            gap: 0.8rem;
+            padding-block: 1.4rem;
+        }
+
+        .ih-section + .ih-section {
+            margin-top: 0.35rem;
+            border-top: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .ih-env-header {
+            padding: 0 0.1rem;
+        }
+
+        .ih-heading {
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+
+        .ops-env-subtitle {
+            margin: 0.15rem 0 0;
+            color: var(--ih-muted);
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .ops-deploy-summary {
+            display: grid;
+            gap: 0.35rem;
+            padding: 0.85rem;
+            border: 1px solid var(--ih-border);
+            border-radius: 8px;
+            background: #f8fafc;
+            color: var(--ih-muted-strong);
+            font-size: 0.8125rem;
+        }
+
+        .ops-deploy-summary strong {
+            color: var(--ih-text);
+        }
+
+        .ih-summary-pill {
+            min-height: 2rem;
+            border-color: rgba(148, 163, 184, 0.28);
+            background: rgba(255, 255, 255, 0.82);
+            color: var(--ih-muted-strong);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        }
+
+        .ih-table-wrap {
+            border-color: rgba(148, 163, 184, 0.24);
+            border-radius: 8px;
+            box-shadow: 0 18px 42px rgba(15, 23, 42, 0.07);
+        }
+
+        .ih-table {
+            min-width: 980px;
+            font-size: 0.78rem;
+        }
+
+        .ih-table th {
+            background: #f8fafc;
+            color: #475569;
+            letter-spacing: 0;
+            white-space: nowrap;
+        }
+
+        .ih-table td {
+            height: 4.35rem;
+        }
+
+        .ih-status-table th:not(:last-child) {
+            font-size: 0.72rem;
+        }
+
+        .ih-status-table td:not(:last-child) {
+            font-size: 0.84rem;
+        }
+
+        .ih-status-table tbody tr {
+            --ih-row-bg: #ffffff;
+            transition: box-shadow 0.18s ease;
+        }
+
+        .ih-status-table tbody tr:hover {
+            background: var(--ih-row-bg);
+            box-shadow: inset 4px 0 0 var(--ih-row-accent), inset 0 0 0 999px rgba(255, 255, 255, 0.08);
+        }
+
+        .ih-status-table tbody tr.is-success {
+            --ih-row-bg: #e7f8ee;
+        }
+
+        .ih-status-table tbody tr.is-partial {
+            --ih-row-bg: #fff1d6;
+        }
+
+        .ih-status-table tbody tr.is-building {
+            --ih-row-bg: #dfeaff;
+        }
+
+        .ih-status-table tbody tr.is-failure {
+            --ih-row-bg: #fde4e4;
+        }
+
+        .ih-status-table tbody tr.is-unknown {
+            --ih-row-bg: #e8edf4;
+        }
+
+        .ih-status-icon::before,
+        .ih-status-icon::after {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .ih-status-icon--success::before {
+            transform: translate(-50%, -50%);
+        }
+
+        .ih-status-icon--partial::before {
+            transform: translate(-50%, -50%);
+        }
+
+        .ih-status-icon--failure::before {
+            transform: translate(-50%, -50%);
+        }
+
+        .ih-status-icon--unknown::before {
+            transform: translate(-50%, -50%);
+        }
+
+        .ih-server-name {
+            font-size: 0.92rem;
+        }
+
+        .ops-server-cell {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            min-width: 8rem;
+        }
+
+        .ops-deploy-icon-btn {
+            --ih-btn-bg: rgba(255, 255, 255, 0.72);
+            --ih-btn-border: rgba(30, 64, 175, 0.22);
+            --ih-btn-color: #1e40af;
+            --ih-btn-hover: #dbeafe;
+            width: 1.9rem;
+            min-width: 1.9rem;
+            min-height: 1.9rem;
+            border-radius: 7px;
+            box-shadow: none;
+            opacity: 0.78;
+        }
+
+        .ops-deploy-icon-btn svg {
+            width: 0.95rem;
+            height: 0.95rem;
+        }
+
+        .ops-deploy-icon-btn:hover,
+        .ops-deploy-icon-btn:focus-visible {
+            opacity: 1;
+        }
+
+        .ih-timeline {
+            border-radius: 8px;
+        }
+
+        .ih-timeline--dense {
+            min-width: 11.5rem;
+            padding: 0.6rem;
+            border-color: rgba(148, 163, 184, 0.24);
+            background: #ffffff;
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
+        }
+
+        .ih-timeline__track {
+            border-radius: 6px;
+        }
+
+        .ih-timeline__segment {
+            height: 0.95rem;
+            border-radius: 4px;
+        }
+
+        .ih-job-list {
+            min-width: 18rem;
+        }
+
+        .ih-job-row {
+            grid-template-columns: 5.8rem minmax(7rem, 1fr) 2.25rem;
+            min-height: 1.7rem;
+            padding: 0 0.25rem;
+        }
+
+        .ih-job-row:hover {
+            background: rgba(255, 255, 255, 0.58);
+        }
+
+        .ih-job-label {
+            color: #25324a;
+            letter-spacing: 0;
+        }
+
+        .ih-external-link {
+            color: #1d4ed8;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            opacity: 0.76;
+            width: auto;
+            min-width: 2rem;
+        }
+
+        .ih-external-link:hover {
+            background: #dbeafe;
+        }
+
+        .ih-modal {
+            background: rgba(15, 23, 42, 0.42);
+        }
+
+        .ih-modal__dialog {
+            border-radius: 8px;
+        }
+
+        @media (max-width: 1100px) {
+            .ops-header-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ih-dashboard-header__top {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .ih-dashboard-header__meta {
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 860px) {
+            .ih-dashboard-header {
+                position: static;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .ops-agent-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 2200px) {
+            :root {
+                --ih-container: 1760px;
+            }
+
+            html {
+                font-size: 17px;
+            }
+
+            .ih-dashboard-header {
+                padding-block: 1.35rem;
+            }
+
+            .ih-table {
+                min-width: 1320px;
+            }
+        }
+
+        @media (min-width: 3400px) {
+            :root {
+                --ih-container: 2360px;
+            }
+
+            html {
+                font-size: 19px;
+            }
+
+            .ih-dashboard-header {
+                padding-block: 1.55rem;
+            }
+
+            .ih-table {
+                min-width: 1760px;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="ih-sidebar-layout">
-    <aside class="ih-sidebar">
-        <div class="ih-stack" style="padding: 1rem; --ih-stack-gap: 1.25rem;">
-            <div class="ih-sidebar-section">
-                <span class="ih-sidebar-label">TeamCity agents</span>
-                <div>
-                    <div class="ih-agent">ci.build.agent.01</div>
-                    <div class="ih-agent">ci.build.agent.02</div>
-                </div>
-                <a class="ih-link-stack" href="#">Troubleshoot</a>
-            </div>
-        </div>
-    </aside>
-
+<div class="ops-page">
     <main class="ih-main">
         <div class="ih-dashboard-header">
-            <div class="ih-dashboard-header__top">
-                <div>
-                    <p class="ih-kicker">CI/CD operations</p>
-                    <h1 class="ih-title">STAR - Deployments status</h1>
+            <div class="ops-header-grid">
+                <div class="ih-dashboard-header__top">
+                    <div>
+                        <p class="ih-kicker">CI/CD operations</p>
+                        <h1 class="ih-title">STAR - Deployments status</h1>
+                    </div>
+                    <div class="ih-dashboard-header__meta">
+                        <span>Deployments <strong id="deployment-age"></strong></span>
+                        <span>DB restore <strong id="db-age"></strong></span>
+                    </div>
                 </div>
-                <div class="ih-dashboard-header__meta">
-                    <span>Deployments <strong id="deployment-age"></strong></span>
-                    <span>DB restore <strong id="db-age"></strong></span>
-                </div>
+                <section class="ops-agent-panel" aria-labelledby="teamcity-agents-title">
+                    <div class="ops-agent-panel__header">
+                        <span class="ops-agent-panel__title" id="teamcity-agents-title">
+                            <span class="ops-bad-icon" aria-hidden="true"></span>
+                            TeamCity agents down
+                        </span>
+                        <span class="ops-agent-panel__meta" id="teamcity-agents-count"></span>
+                    </div>
+                    <div class="ops-agent-list" id="teamcity-agents"></div>
+                </section>
             </div>
-            <div class="ih-dashboard-summary" id="dashboard-summary"></div>
         </div>
 
-        <div class="ih-container ih-stack" style="padding-bottom: 3rem;">
+        <div class="ih-container ih-stack ops-content" style="padding-bottom: 3rem;">
             <div id="environments"></div>
         </div>
     </main>
 </div>
 
+<div class="ih-modal" id="deploy-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="deploy-modal-title" aria-describedby="deploy-modal-desc">
+    <div class="ih-modal__dialog">
+        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">X</button>
+        <h2 class="ih-modal__title" id="deploy-modal-title">Deploy environment</h2>
+        <p class="ih-modal__description" id="deploy-modal-desc">Select the source branch for the deployment request.</p>
+        <div class="ih-modal__content ih-stack">
+            <div class="ops-deploy-summary">
+                <span>Environment <strong id="deploy-env-name"></strong></span>
+                <span>Server <strong id="deploy-server-name"></strong></span>
+                <span>Validation is unavailable until the deployment gate is enabled.</span>
+            </div>
+            <label class="ih-field">
+                <span class="ih-label">Branch</span>
+                <select class="ih-input" id="deploy-branch">
+                    <option value="release/68.0">release/68.0</option>
+                    <option value="release/67.0">release/67.0</option>
+                    <option value="main">main</option>
+                    <option value="hotfix/db-restore">hotfix/db-restore</option>
+                </select>
+            </label>
+        </div>
+        <div class="ih-modal__actions">
+            <button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-close>Cancel</button>
+            <button class="ih-btn ih-btn--solid ih-btn--primary" id="deploy-submit-btn" disabled aria-disabled="true">Validate deployment</button>
+        </div>
+    </div>
+</div>
+
 <div class="ih-modal" id="timeline-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="timeline-modal-title" aria-describedby="timeline-modal-desc">
     <div class="ih-modal__dialog ih-modal__dialog--lg">
-        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">x</button>
+        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">X</button>
         <h2 class="ih-modal__title" id="timeline-modal-title">Deployment timeline</h2>
         <p class="ih-modal__description" id="timeline-modal-desc"></p>
         <div class="ih-modal__content ih-stack">
@@ -98,6 +577,12 @@
     const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     const timelineSlotCount = 12;
     const jobOrder = ['deployment', 'services', 'deprod', 'hudson'];
+    const teamcityAgentsDown = [
+        'ci.build.agent.01',
+        'ci.build.agent.02',
+        'ci.build.agent.07',
+        'ci.deploy.agent.03'
+    ];
 
     const environments = [
         {
@@ -294,7 +779,7 @@
         const jobs = jobsFor(server);
         const rows = jobs.map(j => {
             const icon = statusIcon(j.status, statusLabel(j.status));
-            const link = `<a class="ih-external-link" href="${j.link}" target="_blank" rel="noopener" aria-label="Open ${j.label} details">↗</a>`;
+            const link = `<a class="ih-external-link" href="${j.link}" target="_blank" rel="noopener" aria-label="Open ${j.label} details">Open</a>`;
             const ts = (j.start !== '-' && j.end) ? j.start + ' \u2192 ' + j.end : '-';
             return `<div class="ih-job-row">
                 <span class="ih-job-label">${icon}${j.label}</span>
@@ -353,27 +838,39 @@
         </div>`;
     }
 
+    function deployButton(envName, serverName) {
+        return `<button class="ih-btn ih-icon-btn ih-btn--plain ops-deploy-icon-btn" type="button" data-deploy-env="${envName}" data-deploy-server="${serverName}" title="Deploy ${serverName}" aria-label="Deploy ${serverName}">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 3v12m0-12 4 4m-4-4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path d="M5 15v3a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+        </button>`;
+    }
+
     function findEnvByName(server) {
         return environments.find(e => e.servers.some(s => s.name === server.name))?.name || '';
     }
 
-    function renderSummary() {
-        const servers = environments.flatMap(env => env.servers);
-        const status = worstStatus(servers.map(server => server.status));
-        const running = servers.filter(server => server.echo === 'Running').length;
-        document.getElementById('dashboard-summary').innerHTML = `
-            <span class="ih-summary-pill">${statusBadge(statusLabel(status))}<strong>${servers.length}</strong> servers</span>
-            <span class="ih-summary-pill"><strong>${environments.length}</strong> environments</span>
-            <span class="ih-summary-pill"><strong>${running}</strong> echo running</span>
-        `;
+    function renderTeamcityAgents() {
+        document.getElementById('teamcity-agents-count').textContent = `${teamcityAgentsDown.length} disconnected`;
+        document.getElementById('teamcity-agents').innerHTML = teamcityAgentsDown.map(agent => `
+            <span class="ops-agent-item">
+                <span class="ops-bad-icon" aria-hidden="true"></span>
+                ${agent}
+            </span>
+        `).join('');
     }
 
     function envHeader(env) {
         const status = worstStatus(env.servers.map(server => server.status));
         const activeJobs = env.servers.flatMap(server => jobsFor(server)).filter(job => job.status !== 'unknown').length;
+        const blocked = env.servers.filter(server => ['failure', 'partial'].includes(server.status)).length;
         return `<div class="ih-env-header">
             <div class="ih-env-header__title">
-                <h2 class="ih-heading">${env.name} environment</h2>
+                <div>
+                    <h2 class="ih-heading">${env.name} environment</h2>
+                    <p class="ops-env-subtitle">${blocked ? `${blocked} server${blocked === 1 ? '' : 's'} need review` : 'All monitored servers are green'}</p>
+                </div>
                 ${statusBadge(statusLabel(status))}
             </div>
             <div class="ih-env-header__meta">
@@ -405,7 +902,12 @@
                         <tbody>
                             ${env.servers.map(server => `
                                 <tr class="${statusClass(server.status)}">
-                                    <td><span class="ih-server-name">${statusIcon(server.status)}${server.name}</span></td>
+                                    <td>
+                                        <div class="ops-server-cell">
+                                            <span class="ih-server-name">${statusIcon(server.status)}${server.name}</span>
+                                            ${deployButton(env.name, server.name)}
+                                        </div>
+                                    </td>
                                     <td>${server.star}</td>
                                     <td>${server.polaris}</td>
                                     <td>${server.echo}</td>
@@ -425,7 +927,10 @@
         document.querySelectorAll('[data-ih-timeline-server]').forEach(el => {
             el.addEventListener('click', () => openServerTimelineModal(el.dataset.ihTimelineServer, el.dataset.ihTimelineEnv));
         });
-        renderSummary();
+        document.querySelectorAll('[data-deploy-env]').forEach(button => {
+            button.addEventListener('click', () => openDeployModal(button.dataset.deployEnv, button.dataset.deployServer));
+        });
+        renderTeamcityAgents();
     }
 
     function timeAgo(timestamp) {
@@ -467,14 +972,24 @@
         return null;
     }
 
+    function openDeployModal(envName, serverName) {
+        const modal = document.getElementById('deploy-modal');
+        document.getElementById('deploy-modal-title').textContent = `Deploy ${serverName}`;
+        document.getElementById('deploy-env-name').textContent = envName;
+        document.getElementById('deploy-server-name').textContent = serverName;
+        document.getElementById('deploy-branch').value = envName === 'DEV' ? 'release/68.0' : 'release/67.0';
+        modal.setAttribute('data-ih-open', '');
+        modal.setAttribute('aria-hidden', 'false');
+    }
+
     function openServerTimelineModal(serverName, envName) {
         const result = findServer(serverName);
         if (!result) return;
         const { server, env } = result;
 
         const modal = document.getElementById('timeline-modal');
-        document.getElementById('timeline-modal-title').textContent = `${envName} / ${serverName} — Job timeline`;
-        document.getElementById('timeline-modal-desc').textContent = `4 jobs  |  Click a stage link for build details`;
+        document.getElementById('timeline-modal-title').textContent = `${envName} / ${serverName} - Job timeline`;
+        document.getElementById('timeline-modal-desc').textContent = `4 jobs | Click a stage link for build details`;
 
         const jobs = jobsFor(server);
         const timelineWindow = resolveTimelineWindow(jobs);
@@ -510,7 +1025,7 @@
                 <td>${j.start}</td>
                 <td>${j.end}</td>
                 <td>${calcDuration(j.start, j.end)}</td>
-                <td><a href="${j.link}" target="_blank" rel="noopener">${j.link} ↗</a></td>
+                <td><a href="${j.link}" target="_blank" rel="noopener">${j.link} - open</a></td>
             </tr>
         `).join('');
 
