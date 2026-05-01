@@ -231,7 +231,12 @@
             background: #f8fafc;
             color: #475569;
             letter-spacing: 0;
+            text-align: center;
             white-space: nowrap;
+        }
+
+        .ih-table th:first-child {
+            text-align: left;
         }
 
         .ih-table td {
@@ -244,6 +249,11 @@
 
         .ih-status-table td:not(:last-child) {
             font-size: 0.84rem;
+        }
+
+        .ih-status-table th:first-child,
+        .ih-status-table td:first-child {
+            padding-left: clamp(1rem, 1vw, 1.35rem);
         }
 
         .ih-status-table tbody tr {
@@ -357,35 +367,41 @@
         }
 
         .ih-job-list {
-            min-width: 18rem;
+            min-width: 16rem;
         }
 
-        .ih-job-row {
-            grid-template-columns: 5.8rem minmax(7rem, 1fr) 2.25rem;
+        .ih-job-row,
+        .ih-job-row-static {
+            grid-template-columns: 5.8rem minmax(7rem, 1fr);
             min-height: 1.7rem;
             padding: 0 0.25rem;
         }
 
+        .ih-job-row,
+        .ih-job-row-static {
+            display: grid;
+            align-items: center;
+            gap: var(--ih-space-2);
+            border-radius: var(--ih-radius-sm);
+        }
+
+        .ih-job-row {
+            color: inherit;
+            text-decoration: none;
+        }
+
         .ih-job-row:hover {
             background: rgba(255, 255, 255, 0.58);
+            text-decoration: none;
+        }
+
+        .ih-job-row-static {
+            opacity: 0.9;
         }
 
         .ih-job-label {
             color: #25324a;
             letter-spacing: 0;
-        }
-
-        .ih-external-link {
-            color: #1d4ed8;
-            font-size: 0.6875rem;
-            font-weight: 800;
-            opacity: 0.76;
-            width: auto;
-            min-width: 2rem;
-        }
-
-        .ih-external-link:hover {
-            background: #dbeafe;
         }
 
         .ih-modal {
@@ -394,6 +410,29 @@
 
         .ih-modal__dialog {
             border-radius: 8px;
+        }
+
+        .ih-modal__close {
+            width: 2rem;
+            min-width: 2rem;
+            min-height: 2rem;
+            border: 1px solid rgba(148, 163, 184, 0.34);
+            border-radius: 7px;
+            background: #f8fafc;
+            color: #475569;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+        }
+
+        .ih-modal__close svg {
+            width: 1rem;
+            height: 1rem;
+            pointer-events: none;
+        }
+
+        .ih-modal__close:hover,
+        .ih-modal__close:focus-visible {
+            background: #eef2f7;
+            color: #172033;
         }
 
         @media (max-width: 1100px) {
@@ -496,7 +535,11 @@
 
 <div class="ih-modal" id="deploy-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="deploy-modal-title" aria-describedby="deploy-modal-desc">
     <div class="ih-modal__dialog">
-        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">X</button>
+        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+            </svg>
+        </button>
         <h2 class="ih-modal__title" id="deploy-modal-title">Deploy environment</h2>
         <p class="ih-modal__description" id="deploy-modal-desc">Select the source branch for the deployment request.</p>
         <div class="ih-modal__content ih-stack">
@@ -524,7 +567,11 @@
 
 <div class="ih-modal" id="timeline-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="timeline-modal-title" aria-describedby="timeline-modal-desc">
     <div class="ih-modal__dialog ih-modal__dialog--lg">
-        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">X</button>
+        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"></path>
+            </svg>
+        </button>
         <h2 class="ih-modal__title" id="timeline-modal-title">Deployment timeline</h2>
         <p class="ih-modal__description" id="timeline-modal-desc"></p>
         <div class="ih-modal__content ih-stack">
@@ -613,7 +660,7 @@
                 {
                     status: 'success',
                     name: 'DEV2',
-                    star: '68.0.0.5396',
+                    star: 'release/68.0',
                     polaris: '68.0.0.5396',
                     echo: 'Running',
                     dbName: 'STA2UKD',
@@ -645,7 +692,7 @@
                 {
                     status: 'partial',
                     name: 'DEV5',
-                    star: '67.0.0.5267',
+                    star: 'hotfix/star-services',
                     polaris: '67.0.0.5267',
                     echo: 'Running',
                     dbName: 'STA5UKD',
@@ -688,7 +735,7 @@
                 {
                     status: 'failure',
                     name: 'UAT2',
-                    star: '67.0.0.5267',
+                    star: 'release/67.0',
                     polaris: '67.0.0.5267',
                     echo: 'Running',
                     dbName: 'STA2UKU',
@@ -779,13 +826,14 @@
         const jobs = jobsFor(server);
         const rows = jobs.map(j => {
             const icon = statusIcon(j.status, statusLabel(j.status));
-            const link = `<a class="ih-external-link" href="${j.link}" target="_blank" rel="noopener" aria-label="Open ${j.label} details">Open</a>`;
             const ts = (j.start !== '-' && j.end) ? j.start + ' \u2192 ' + j.end : '-';
-            return `<div class="ih-job-row">
+            const content = `
                 <span class="ih-job-label">${icon}${j.label}</span>
-                <span class="ih-job-time">${ts}</span>
-                ${link}
-            </div>`;
+                <span class="ih-job-time">${ts}</span>`;
+            if (!j.link || j.link === '#') {
+                return `<div class="ih-job-row-static">${content}</div>`;
+            }
+            return `<a class="ih-job-row" href="${j.link}" target="_blank" rel="noopener" aria-label="Open ${j.label} details">${content}</a>`;
         }).join('');
         return `<div class="ih-job-list">${rows}</div>`;
     }
