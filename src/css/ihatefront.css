@@ -483,6 +483,13 @@ pre {
   padding: 0;
 }
 
+.ih-icon-btn svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
 .ih-btn-group {
   display: inline-flex;
   vertical-align: middle;
