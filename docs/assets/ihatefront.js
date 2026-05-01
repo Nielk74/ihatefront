@@ -4,6 +4,8 @@ const selectors = {
   open: 'data-ih-open'
 };
 
+let tooltipId = 0;
+
 function all(selector, root = document) {
   return Array.from(root.querySelectorAll(selector));
 }
@@ -209,10 +211,60 @@ function initAutocomplete(root = document) {
 
 function initTooltips(root = document) {
   all('[data-ih-tooltip]', root).forEach((trigger, index) => {
+    const tooltip = trigger.getAttribute('data-ih-tooltip') || `Tooltip ${index + 1}`;
     if (!trigger.hasAttribute('aria-label')) {
-      trigger.setAttribute('aria-label', trigger.getAttribute('data-ih-tooltip') || `Tooltip ${index + 1}`);
+      trigger.setAttribute('aria-label', tooltip);
     }
+    if (trigger.hasAttribute('data-ih-tooltip-enhanced')) return;
+
+    const id = trigger.id ? `${trigger.id}-tooltip` : `ih-tooltip-${++tooltipId}`;
+    const bubble = document.createElement('span');
+    bubble.className = 'ih-tooltip__bubble';
+    bubble.id = id;
+    bubble.setAttribute('role', 'tooltip');
+    bubble.textContent = tooltip;
+    document.body.append(bubble);
+    trigger.setAttribute('aria-describedby', id);
+    trigger.setAttribute('data-ih-tooltip-enhanced', '');
+
+    let closeTimer;
+    function openTooltip() {
+      window.clearTimeout(closeTimer);
+      positionTooltip(trigger);
+      bubble.setAttribute(selectors.open, '');
+    }
+    function closeTooltipSoon() {
+      window.clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(() => bubble.removeAttribute(selectors.open), 120);
+    }
+
+    trigger.addEventListener('pointerenter', openTooltip);
+    trigger.addEventListener('pointerleave', closeTooltipSoon);
+    trigger.addEventListener('focus', openTooltip);
+    trigger.addEventListener('blur', closeTooltipSoon);
+    bubble.addEventListener('pointerenter', () => window.clearTimeout(closeTimer));
+    bubble.addEventListener('pointerleave', closeTooltipSoon);
   });
+}
+
+function positionTooltip(trigger) {
+  const id = trigger.getAttribute('aria-describedby');
+  const bubble = id ? document.getElementById(id) : null;
+  if (!bubble?.classList.contains('ih-tooltip__bubble')) return;
+
+  const rect = trigger.getBoundingClientRect();
+  bubble.style.left = `${rect.left + rect.width / 2}px`;
+  bubble.style.top = `${rect.top}px`;
+}
+
+function enhanceTooltipTarget(target) {
+  const trigger = target.closest?.('[data-ih-tooltip]');
+  if (trigger && !trigger.hasAttribute('data-ih-tooltip-enhanced')) {
+    initTooltips(trigger.parentElement || document);
+  }
+  if (trigger) {
+    positionTooltip(trigger);
+  }
 }
 
 function initDismiss(root = document) {
@@ -288,6 +340,9 @@ document.addEventListener('keydown', (event) => {
     closeDrawers();
   }
 });
+
+document.addEventListener('pointerover', (event) => enhanceTooltipTarget(event.target));
+document.addEventListener('focusin', (event) => enhanceTooltipTarget(event.target));
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => init());

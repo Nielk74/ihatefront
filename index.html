@@ -262,9 +262,8 @@
 
     function statusBadge(text) {
         const cls = text.toLowerCase();
-        return `<span class="ih-status ih-status--${cls}">
-            <span class="ih-status-icon ih-status-icon--${cls}" data-ih-tooltip="${text}" tabindex="0" aria-label="${text}"></span>
-            <span>${text}</span>
+        return `<span class="ih-status ih-status--${cls} ih-status--icon-only" data-ih-tooltip="${text}" tabindex="0" aria-label="${text}">
+            <span class="ih-status-icon ih-status-icon--${cls}" aria-hidden="true"></span>
         </span>`;
     }
 
@@ -294,12 +293,11 @@
     function jobsColumn(server) {
         const jobs = jobsFor(server);
         const rows = jobs.map(j => {
-            const badge = statusBadge(statusLabel(j.status));
+            const icon = statusIcon(j.status, statusLabel(j.status));
             const link = `<a class="ih-external-link" href="${j.link}" target="_blank" rel="noopener" aria-label="Open ${j.label} details">↗</a>`;
             const ts = (j.start !== '-' && j.end) ? j.start + ' \u2192 ' + j.end : '-';
             return `<div class="ih-job-row">
-                <span class="ih-job-label">${j.label}</span>
-                ${badge}
+                <span class="ih-job-label">${icon}${j.label}</span>
                 <span class="ih-job-time">${ts}</span>
                 ${link}
             </div>`;
