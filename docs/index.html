@@ -563,6 +563,13 @@
                 <h3 class="ih-timeline__title">History - Last 24 h</h3>
                 <span class="ih-timeline__meta">5 min buckets</span>
               </div>
+              <div class="ih-timeline__axis" aria-label="Timeline hours">
+                <span>00:00</span>
+                <span>06:00</span>
+                <span>12:00</span>
+                <span>18:00</span>
+                <span>24:00</span>
+              </div>
               <div class="ih-timeline__rows">
                 <div class="ih-timeline__row">
                   <span class="ih-timeline__row-label">api</span>
@@ -571,7 +578,7 @@
                       <span class="ih-timeline__segment ih-timeline__segment--success"></span>
                       <span class="ih-timeline__segment ih-timeline__segment--success"></span>
                       <span class="ih-timeline__segment ih-timeline__segment--success"></span>
-                      <span class="ih-timeline__segment ih-timeline__segment--warning"></span>
+                      <span class="ih-timeline__segment ih-timeline__segment--warning ih-timeline__segment--noted" data-ih-tooltip="Deploy note: cache warmed before restart" tabindex="0"></span>
                       <span class="ih-timeline__segment ih-timeline__segment--success"></span>
                       <span class="ih-timeline__segment ih-timeline__segment--success"></span>
                       <span class="ih-timeline__segment ih-timeline__segment--success"></span>
@@ -639,12 +646,17 @@
     &lt;h3 class="ih-timeline__title"&gt;History - Last 24 h&lt;/h3&gt;
     &lt;span class="ih-timeline__meta"&gt;5 min buckets&lt;/span&gt;
   &lt;/div&gt;
+  &lt;div class="ih-timeline__axis" aria-label="Timeline hours"&gt;
+    &lt;span&gt;00:00&lt;/span&gt;&lt;span&gt;06:00&lt;/span&gt;&lt;span&gt;12:00&lt;/span&gt;
+    &lt;span&gt;18:00&lt;/span&gt;&lt;span&gt;24:00&lt;/span&gt;
+  &lt;/div&gt;
   &lt;div class="ih-timeline__row"&gt;
     &lt;span class="ih-timeline__row-label"&gt;api&lt;/span&gt;
     &lt;div class="ih-timeline__scroll"&gt;
       &lt;div class="ih-timeline__track"&gt;
         &lt;span class="ih-timeline__segment ih-timeline__segment--success"&gt;&lt;/span&gt;
-        &lt;span class="ih-timeline__segment ih-timeline__segment--warning" data-ih-current data-label="N"&gt;&lt;/span&gt;
+        &lt;span class="ih-timeline__segment ih-timeline__segment--warning ih-timeline__segment--noted"
+          data-ih-tooltip="Deploy note: cache warmed before restart" tabindex="0"&gt;&lt;/span&gt;
         &lt;span class="ih-timeline__segment ih-timeline__segment--danger"&gt;&lt;/span&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -856,15 +868,13 @@
 &lt;div class="ih-modal" id="release-modal" aria-hidden="true" role="dialog" aria-modal="true"
   aria-labelledby="release-modal-title" aria-describedby="release-modal-description"&gt;
   &lt;div class="ih-modal__dialog ih-modal__dialog--sm"&gt;
-    &lt;button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral"
-      data-ih-modal-close aria-label="Close"&gt;
-      &lt;svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"&gt;
-        &lt;path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round"&gt;&lt;/path&gt;
-      &lt;/svg&gt;
-    &lt;/button&gt;
-    &lt;h2 class="ih-modal__title" id="release-modal-title"&gt;Create release&lt;/h2&gt;
-    &lt;p class="ih-modal__description" id="release-modal-description"&gt;Confirm the target before continuing.&lt;/p&gt;
+    &lt;div class="ih-modal__header"&gt;
+      &lt;button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral"
+        data-ih-modal-close aria-label="Close"&gt;...&lt;/button&gt;
+      &lt;h2 class="ih-modal__title" id="release-modal-title"&gt;Create release&lt;/h2&gt;
+      &lt;p class="ih-modal__description" id="release-modal-description"&gt;Confirm the target before continuing.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="ih-modal__body"&gt;Release settings go here.&lt;/div&gt;
     &lt;div class="ih-modal__actions"&gt;
       &lt;button class="ih-btn ih-btn--outlined ih-btn--neutral" data-ih-modal-close&gt;Cancel&lt;/button&gt;
       &lt;button class="ih-btn ih-btn--solid ih-btn--primary"&gt;Create&lt;/button&gt;
@@ -981,14 +991,16 @@
 
     <div class="ih-modal" id="docs-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="docs-modal-title" aria-describedby="docs-modal-description">
       <div class="ih-modal__dialog ih-modal__dialog--sm">
-        <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-          </svg>
-        </button>
-        <h2 class="ih-modal__title" id="docs-modal-title">Create release</h2>
-        <p class="ih-modal__description" id="docs-modal-description">Confirm the target environment before the release starts.</p>
-        <div class="ih-modal__content">
+        <div class="ih-modal__header">
+          <button class="ih-modal__close ih-btn ih-icon-btn ih-btn--plain ih-btn--neutral" data-ih-modal-close aria-label="Close">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            </svg>
+          </button>
+          <h2 class="ih-modal__title" id="docs-modal-title">Create release</h2>
+          <p class="ih-modal__description" id="docs-modal-description">Confirm the target environment before the release starts.</p>
+        </div>
+        <div class="ih-modal__body ih-modal__content">
           <label class="ih-field">
             <span class="ih-label">Release name</span>
             <input class="ih-input" value="v0.1.1">
