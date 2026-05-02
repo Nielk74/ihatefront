@@ -167,6 +167,64 @@
             padding-top: 1.25rem;
         }
 
+        .ops-filter-panel {
+            border: 1px solid rgba(148, 163, 184, 0.26);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+        }
+
+        .ops-filter-panel__label {
+            color: var(--ih-muted);
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .ops-filter-panel {
+            display: grid;
+            gap: 0.7rem;
+            padding: 0.85rem;
+        }
+
+        .ops-filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+
+        .ops-filter-btn {
+            min-height: 2rem;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            font-weight: 750;
+        }
+
+        .ops-filter-btn[aria-pressed="true"] {
+            --ih-btn-bg: var(--ih-primary);
+            --ih-btn-border: var(--ih-primary);
+            --ih-btn-color: #ffffff;
+            --ih-btn-hover: #1d4ed8;
+        }
+
+        .ops-search {
+            width: 100%;
+            min-height: 2.35rem;
+            border: 1px solid var(--ih-border);
+            border-radius: 8px;
+            background: #ffffff;
+            color: var(--ih-text);
+            font: inherit;
+            font-size: 0.85rem;
+            padding: 0 0.75rem;
+        }
+
+        .ops-search:focus {
+            border-color: var(--ih-primary-border);
+            box-shadow: var(--ih-focus);
+            outline: none;
+        }
+
         .ih-section {
             gap: 0.8rem;
             padding-block: 1.4rem;
@@ -223,7 +281,7 @@
         }
 
         .ih-table {
-            min-width: 980px;
+            min-width: 1080px;
             font-size: 0.78rem;
         }
 
@@ -235,12 +293,9 @@
             white-space: nowrap;
         }
 
-        .ih-table th:first-child {
-            text-align: left;
-        }
-
         .ih-table td {
             height: 4.35rem;
+            text-align: center;
         }
 
         .ih-status-table th:not(:last-child) {
@@ -249,6 +304,10 @@
 
         .ih-status-table td:not(:last-child) {
             font-size: 0.84rem;
+        }
+
+        .ih-status-table td {
+            vertical-align: middle;
         }
 
         .ih-status-table th:first-child,
@@ -317,9 +376,110 @@
         .ops-server-cell {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             gap: 0.75rem;
             min-width: 8rem;
+        }
+
+        .ops-stack-cell {
+            display: grid;
+            gap: 0.22rem;
+            min-width: 8.4rem;
+            width: fit-content;
+            margin-inline: auto;
+            text-align: left;
+        }
+
+        .ops-field-line {
+            display: grid;
+            grid-template-columns: 3.45rem minmax(0, 1fr);
+            align-items: baseline;
+            gap: 0.45rem;
+        }
+
+        .ops-field-label {
+            color: var(--ih-muted);
+            font-size: 0.67rem;
+            font-weight: 850;
+            text-transform: uppercase;
+        }
+
+        .ops-field-value {
+            min-width: 0;
+            color: var(--ih-text);
+            font-family: var(--ih-font-mono);
+            font-size: 0.76rem;
+            font-weight: 650;
+            overflow-wrap: anywhere;
+        }
+
+        .ops-db-name {
+            color: var(--ih-text);
+            font-family: var(--ih-font-mono);
+            font-size: 0.82rem;
+            font-weight: 750;
+        }
+
+        .ops-date-stack {
+            display: grid;
+            gap: 0.12rem;
+            color: var(--ih-text);
+            font-family: var(--ih-font-mono);
+            font-size: 0.78rem;
+            font-weight: 650;
+            white-space: nowrap;
+            justify-content: center;
+        }
+
+        .ops-date-stack__time {
+            color: var(--ih-muted-strong);
+        }
+
+        .ops-health-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.35rem;
+            min-width: 12rem;
+            max-width: 16rem;
+            margin-inline: auto;
+        }
+
+        .ops-health-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.28rem;
+            min-height: 1.45rem;
+            padding: 0 0.5rem;
+            border: 1px solid rgba(148, 163, 184, 0.34);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.62);
+            color: var(--ih-muted-strong);
+            font-size: 0.72rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .ops-health-value {
+            color: var(--ih-muted);
+            font-weight: 750;
+        }
+
+        .ops-progress-cell {
+            display: grid;
+            justify-items: center;
+            gap: 0.32rem;
+            min-width: 12rem;
+        }
+
+        .ops-progress-note {
+            color: var(--ih-muted-strong);
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        .ops-progress-note.is-attention {
+            color: #991b1b;
         }
 
         .ops-deploy-icon-btn {
@@ -370,7 +530,8 @@
             z-index: calc(var(--ih-z-modal) + 1);
         }
 
-        #timeline-modal .ih-timeline__segment[data-ih-tooltip]::before {
+        #timeline-modal .ih-timeline__segment[data-ih-tooltip]::before,
+        #timeline-modal .ih-timeline__segment--noted::before {
             content: "";
             position: absolute;
             top: 0.18rem;
@@ -382,7 +543,7 @@
             box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.18);
         }
 
-        .ops-timeline-axis {
+        .ih-timeline__axis {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 0.4rem;
@@ -394,35 +555,25 @@
             font-variant-numeric: tabular-nums;
         }
 
-        .ops-timeline-axis span {
+        .ih-timeline__axis span {
             text-align: center;
         }
 
-        .ops-timeline-axis span:first-child {
+        .ih-timeline__axis span:first-child {
             text-align: left;
         }
 
-        .ops-timeline-axis span:last-child {
+        .ih-timeline__axis span:last-child {
             text-align: right;
         }
 
-        .ops-timeline-note {
-            padding: 0.85rem 1.5rem 1rem;
-            border-top: 1px solid #e2e8f0;
-            background: #f8fafc;
-        }
-
-        .ops-timeline-note .ih-alert {
-            box-shadow: none;
-        }
-
         .ih-job-list {
-            min-width: 16rem;
+            min-width: 13.5rem;
         }
 
         .ih-job-row,
         .ih-job-row-static {
-            grid-template-columns: 5.8rem minmax(7rem, 1fr);
+            grid-template-columns: 5.8rem minmax(4.5rem, 1fr);
             min-height: 1.7rem;
             padding: 0 0.25rem;
         }
@@ -454,6 +605,23 @@
             letter-spacing: 0;
         }
 
+        .ih-job-time {
+            color: var(--ih-muted-strong);
+            font-family: var(--ih-font-mono);
+            font-size: 0.72rem;
+            font-weight: 650;
+            white-space: nowrap;
+        }
+
+        .ops-empty {
+            padding: 1.2rem;
+            border: 1px dashed var(--ih-border-strong);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.68);
+            color: var(--ih-muted-strong);
+            font-weight: 650;
+        }
+
         .ih-modal {
             background: rgba(15, 23, 42, 0.42);
         }
@@ -464,7 +632,6 @@
             gap: 0;
             border-radius: 8px;
             overflow: hidden;
-            padding: 0;
         }
 
         .ih-modal__header {
@@ -483,11 +650,16 @@
             background: #ffffff;
         }
 
-        .ih-modal__actions {
+        .ih-modal__actions,
+        .ih-modal__footer {
             margin: 0;
             padding: 1rem 1.5rem;
             border-top: 1px solid #e2e8f0;
             background: #f8fafc;
+        }
+
+        .ih-modal__footer .ih-alert {
+            box-shadow: none;
         }
 
         .ih-modal__description {
@@ -537,6 +709,7 @@
             .ih-dashboard-header {
                 position: static;
             }
+
         }
 
         @media (max-width: 620px) {
@@ -611,6 +784,7 @@
         </div>
 
         <div class="ih-container ih-stack ops-content" style="padding-bottom: 3rem;">
+            <div id="ops-filter-panel"></div>
             <div id="environments"></div>
         </div>
     </main>
@@ -664,7 +838,7 @@
         <div class="ih-modal__body ih-modal__content ih-stack">
             <div id="timeline-modal-chart" class="ih-timeline ih-timeline--dense" aria-label="Detailed timeline"></div>
         </div>
-        <div class="ops-timeline-note" id="timeline-last-note">
+        <div class="ih-modal__footer" id="timeline-last-note">
             <div class="ih-alert ih-alert--primary">
                 <span class="ih-alert__icon">i</span>
                 <div class="ih-alert__content">
@@ -687,6 +861,10 @@
         'ci.build.agent.07',
         'ci.deploy.agent.03'
     ];
+    const filters = {
+        status: 'all',
+        query: ''
+    };
 
     const environments = [
         {
@@ -825,8 +1003,14 @@
         }
     ];
 
-    function splitDate(value) {
-        return String(value).replace(', ', ',<br>');
+    function compactDateTime(value) {
+        if (!value || value === '-') return '<span class="ops-date-stack">-</span>';
+        const [date, time = ''] = String(value).replace(',', '').split(' ');
+        const shortTime = time ? time.split(':').slice(0, 2).join(':') : '';
+        return `<span class="ops-date-stack">
+            <span>${escapeHtml(date)}</span>
+            ${shortTime ? `<span class="ops-date-stack__time">${escapeHtml(shortTime)} GMT</span>` : ''}
+        </span>`;
     }
 
     function statusClass(status) {
@@ -847,6 +1031,51 @@
 
     function statusLabel(status) {
         return status.charAt(0).toUpperCase() + status.slice(1);
+    }
+
+    function filterMatches(server) {
+        if (filters.status !== 'all' && server.status !== filters.status) return false;
+        const query = filters.query.trim().toLowerCase();
+        if (!query) return true;
+        const health = healthChecks(server).map(check => `${check.label} ${check.value}`).join(' ');
+        return [server.name, server.star, server.polaris, server.echo, health, server.dbName, server.restore]
+            .join(' ')
+            .toLowerCase()
+            .includes(query);
+    }
+
+    function renderFilterPanel() {
+        document.getElementById('ops-filter-panel').innerHTML = `
+            <div class="ops-filter-panel" aria-label="Deployment filters">
+                <span class="ops-filter-panel__label">Filter servers</span>
+                <div class="ops-filter-row" role="group" aria-label="Status filter">
+                    ${[
+                        ['all', 'All'],
+                        ['failure', 'Failure'],
+                        ['building', 'Building'],
+                        ['partial', 'Partial'],
+                        ['unknown', 'Unknown'],
+                        ['success', 'Success']
+                    ].map(([value, label]) => `
+                        <button class="ih-btn ih-btn--outlined ih-btn--neutral ops-filter-btn" type="button" data-status-filter="${value}" aria-pressed="${filters.status === value}">${label}</button>
+                    `).join('')}
+                </div>
+                <input class="ops-search" id="server-search" type="search" placeholder="Search server, release, DB name..." value="${escapeHtml(filters.query)}" aria-label="Search servers">
+            </div>
+        `;
+
+        document.querySelectorAll('[data-status-filter]').forEach(button => {
+            button.addEventListener('click', () => {
+                filters.status = button.dataset.statusFilter;
+                renderFilterPanel();
+                renderEnvironments();
+            });
+        });
+
+        document.getElementById('server-search').addEventListener('input', event => {
+            filters.query = event.target.value;
+            renderEnvironments();
+        });
     }
 
     function statusBadge(text) {
@@ -893,7 +1122,7 @@
             const timestamp = window.minTime + ((window.maxTime - window.minTime) * index / 4);
             return `<span>${formatHour(timestamp)}</span>`;
         }).join('');
-        return `<div class="ops-timeline-axis" aria-label="Timeline hours">${ticks}</div>`;
+        return `<div class="ih-timeline__axis" aria-label="Timeline hours">${ticks}</div>`;
     }
 
     function noteLabel(job) {
@@ -916,11 +1145,82 @@
         return jobOrder.map(key => ({ key, label: labels[key], ...server.jobs[key] }));
     }
 
+    function releaseCell(server) {
+        return `<div class="ops-stack-cell">
+            <span class="ops-field-line">
+                <span class="ops-field-label">STAR</span>
+                <span class="ops-field-value">${escapeHtml(server.star)}</span>
+            </span>
+            <span class="ops-field-line">
+                <span class="ops-field-label">Polaris</span>
+                <span class="ops-field-value">${escapeHtml(server.polaris)}</span>
+            </span>
+        </div>`;
+    }
+
+    function healthStatusFromValue(value) {
+        const normalized = String(value || '').toLowerCase();
+        if (['running', 'healthy', 'ok', 'up', 'online'].includes(normalized)) return 'success';
+        if (['starting', 'building', 'pending'].includes(normalized)) return 'building';
+        if (['degraded', 'warning', 'partial'].includes(normalized)) return 'partial';
+        if (['failed', 'failure', 'down', 'error', 'stopped'].includes(normalized)) return 'failure';
+        return 'unknown';
+    }
+
+    function healthChecks(server) {
+        if (Array.isArray(server.health) && server.health.length) return server.health;
+        return [{ label: 'Echo', value: server.echo }];
+    }
+
+    function runtimeCell(server) {
+        return `<div class="ops-health-list">
+            ${healthChecks(server).map(check => {
+                const value = check.value || 'Unknown';
+                const status = check.status || healthStatusFromValue(check.value);
+                return `<span class="ops-health-pill" title="${escapeHtml(check.label)}: ${escapeHtml(value)}">
+                    ${statusIcon(status, `${check.label}: ${value}`)}
+                    ${escapeHtml(check.label)}
+                    <span class="ops-health-value">${escapeHtml(value)}</span>
+                </span>`;
+            }).join('')}
+        </div>`;
+    }
+
+    function databaseCell(server) {
+        return `<div class="ops-stack-cell">
+            <span class="ops-db-name">${escapeHtml(server.dbName)}</span>
+            <span class="ops-field-line">
+                <span class="ops-field-label">Restore</span>
+                <span class="ops-field-value">${escapeHtml(server.restore)}</span>
+            </span>
+        </div>`;
+    }
+
+    function compactJobTime(job) {
+        if (job.start === '-' || !job.end || job.end === '-') return '-';
+        const startTime = job.start.split(' ')[1] || job.start;
+        const endTime = job.end === '...' ? '...' : (job.end.split(' ')[1] || job.end);
+        return `${startTime} - ${endTime}`;
+    }
+
+    function progressSummary(server) {
+        const jobs = jobsFor(server);
+        const attention = jobs.find(job => ['failure', 'building', 'partial'].includes(job.status));
+        if (attention) {
+            return {
+                text: `${attention.label} ${attention.status}`,
+                attention: ['failure', 'partial'].includes(attention.status)
+            };
+        }
+        if (jobs.every(job => job.status === 'success')) return { text: 'Complete', attention: false };
+        return { text: statusLabel(server.status), attention: server.status !== 'success' };
+    }
+
     function jobsColumn(server) {
         const jobs = jobsFor(server);
         const rows = jobs.map(j => {
             const icon = statusIcon(j.status, statusLabel(j.status));
-            const ts = (j.start !== '-' && j.end) ? j.start + ' \u2192 ' + j.end : '-';
+            const ts = compactJobTime(j);
             const content = `
                 <span class="ih-job-label">${icon}${j.label}</span>
                 <span class="ih-job-time">${ts}</span>`;
@@ -969,7 +1269,8 @@
                 : `${label} slot ${index + 1}: no activity`;
             const note = options.notes ? overlaps.find(j => j.note) : null;
             const noteAttr = note ? ` data-ih-tooltip="${escapeHtml(noteLabel(note))}" tabindex="0"` : '';
-            return `<span class="ih-timeline__segment ${segClass(status)}" title="${escapeHtml(title)}"${noteAttr}></span>`;
+            const noteClass = note ? ' ih-timeline__segment--noted' : '';
+            return `<span class="ih-timeline__segment ${segClass(status)}${noteClass}" title="${escapeHtml(title)}"${noteAttr}></span>`;
         }).join('');
 
         return slots;
@@ -977,8 +1278,12 @@
 
     function timelineCell(server) {
         const jobs = jobsFor(server);
-        return `<div class="ih-timeline ih-timeline--dense" style="cursor:pointer;" data-ih-timeline-server="${server.name}" data-ih-timeline-env="${findEnvByName(server)}">
-            <div class="ih-timeline__track ih-timeline__track--slots" aria-label="${server.name} deployment timeline">${timelineSlots(jobs, server.name)}</div>
+        const summary = progressSummary(server);
+        return `<div class="ops-progress-cell">
+            <div class="ih-timeline ih-timeline--dense" style="cursor:pointer;" data-ih-timeline-server="${server.name}" data-ih-timeline-env="${findEnvByName(server)}">
+                <div class="ih-timeline__track ih-timeline__track--slots" aria-label="${server.name} deployment timeline">${timelineSlots(jobs, server.name)}</div>
+            </div>
+            <span class="ops-progress-note${summary.attention ? ' is-attention' : ''}">${escapeHtml(summary.text)}</span>
         </div>`;
     }
 
@@ -1005,10 +1310,13 @@
         `).join('');
     }
 
-    function envHeader(env) {
+    function envHeader(env, visibleServers = env.servers) {
         const status = worstStatus(env.servers.map(server => server.status));
         const activeJobs = env.servers.flatMap(server => jobsFor(server)).filter(job => job.status !== 'unknown').length;
         const blocked = env.servers.filter(server => ['failure', 'partial'].includes(server.status)).length;
+        const serverCount = visibleServers.length === env.servers.length
+            ? `<span class="ih-summary-pill"><strong>${env.servers.length}</strong> servers</span>`
+            : `<span class="ih-summary-pill"><strong>${visibleServers.length}</strong> shown</span><span class="ih-summary-pill"><strong>${env.servers.length}</strong> servers</span>`;
         return `<div class="ih-env-header">
             <div class="ih-env-header__title">
                 <div>
@@ -1018,55 +1326,62 @@
                 ${statusBadge(statusLabel(status))}
             </div>
             <div class="ih-env-header__meta">
-                <span class="ih-summary-pill"><strong>${env.servers.length}</strong> servers</span>
+                ${serverCount}
                 <span class="ih-summary-pill"><strong>${activeJobs}</strong> active jobs</span>
             </div>
         </div>`;
     }
 
-    function render() {
-        document.getElementById('environments').innerHTML = environments.map(env => `
-            <section class="ih-section">
-                ${envHeader(env)}
-                <div class="ih-table-wrap">
-                    <table class="ih-table ih-table--dense ih-status-table">
-                        <thead>
-                            <tr>
-                                <th>Server</th>
-                                <th>STAR release</th>
-                                <th>Polaris <span class="ih-tooltip" tabindex="0" data-ih-tooltip="Version might differ due to release cut or unchanged STAR sources.">i</span></th>
-                                <th>Echo</th>
-                                <th>DB name</th>
-                                <th>DB restore</th>
-                                <th>Started (GMT)</th>
-                                <th>Timeline</th>
-                                <th>Jobs</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${env.servers.map(server => `
-                                <tr class="${statusClass(server.status)}">
-                                    <td>
-                                        <div class="ops-server-cell">
-                                            <span class="ih-server-name">${statusIcon(server.status)}${server.name}</span>
-                                            ${deployButton(env.name, server.name)}
-                                        </div>
-                                    </td>
-                                    <td>${server.star}</td>
-                                    <td>${server.polaris}</td>
-                                    <td>${server.echo}</td>
-                                    <td>${server.dbName}</td>
-                                    <td>${server.restore}</td>
-                                    <td>${splitDate(server.started)}</td>
-                                    <td>${timelineCell(server)}</td>
-                                    <td>${jobsColumn(server)}</td>
+    function renderEnvironments() {
+        const sections = environments.map(env => {
+            const visibleServers = env.servers.filter(filterMatches);
+            if (visibleServers.length === 0) {
+                return `<section class="ih-section">
+                    ${envHeader(env, visibleServers)}
+                    <div class="ops-empty">No ${env.name} servers match the current filter.</div>
+                </section>`;
+            }
+            return `<section class="ih-section">
+                ${envHeader(env, visibleServers)}
+                <div>
+                    <div class="ih-table-wrap" tabindex="0" aria-label="${env.name} server deployment table">
+                        <table class="ih-table ih-table--dense ih-status-table">
+                            <thead>
+                                <tr>
+                                    <th>Server</th>
+                                    <th>Release <span class="ih-tooltip" tabindex="0" data-ih-tooltip="Polaris version might differ due to release cut or unchanged STAR sources.">i</span></th>
+                                    <th>Runtime</th>
+                                    <th>Database</th>
+                                    <th>Started (GMT)</th>
+                                    <th>Progress</th>
+                                    <th>Jobs</th>
                                 </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                ${visibleServers.map(server => `
+                                    <tr class="${statusClass(server.status)}">
+                                        <td>
+                                            <div class="ops-server-cell">
+                                                <span class="ih-server-name">${statusIcon(server.status)}${server.name}</span>
+                                                ${deployButton(env.name, server.name)}
+                                            </div>
+                                        </td>
+                                        <td>${releaseCell(server)}</td>
+                                        <td>${runtimeCell(server)}</td>
+                                        <td>${databaseCell(server)}</td>
+                                        <td>${compactDateTime(server.started)}</td>
+                                        <td>${timelineCell(server)}</td>
+                                        <td>${jobsColumn(server)}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </section>
-        `).join('');
+            </section>`;
+        }).join('');
+
+        document.getElementById('environments').innerHTML = sections;
 
         document.querySelectorAll('[data-ih-timeline-server]').forEach(el => {
             el.addEventListener('click', () => openServerTimelineModal(el.dataset.ihTimelineServer, el.dataset.ihTimelineEnv));
@@ -1074,6 +1389,12 @@
         document.querySelectorAll('[data-deploy-env]').forEach(button => {
             button.addEventListener('click', () => openDeployModal(button.dataset.deployEnv, button.dataset.deployServer));
         });
+        refreshFramework(document.getElementById('environments'));
+    }
+
+    function render() {
+        renderFilterPanel();
+        renderEnvironments();
         renderTeamcityAgents();
     }
 
