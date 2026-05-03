@@ -195,16 +195,52 @@
 
         .ops-filter-btn {
             min-height: 2rem;
+            --ih-btn-bg: var(--ops-filter-bg, #ffffff);
+            --ih-btn-border: var(--ops-filter-border, var(--ih-border));
+            --ih-btn-color: var(--ops-filter-color, var(--ih-muted-strong));
+            --ih-btn-hover: var(--ops-filter-hover, var(--ops-filter-bg, #f8fafc));
             border-radius: 999px;
             font-size: 0.76rem;
             font-weight: 750;
         }
 
+        .ops-filter-btn[data-status-filter="success"] {
+            --ops-filter-bg: #e7f8ee;
+            --ops-filter-border: #8fd8aa;
+            --ops-filter-color: #166534;
+            --ops-filter-hover: #d7f2e2;
+        }
+
+        .ops-filter-btn[data-status-filter="partial"] {
+            --ops-filter-bg: #fff1d6;
+            --ops-filter-border: #f4c76f;
+            --ops-filter-color: #92400e;
+            --ops-filter-hover: #ffe8bd;
+        }
+
+        .ops-filter-btn[data-status-filter="building"] {
+            --ops-filter-bg: #dfeaff;
+            --ops-filter-border: #9ab8f5;
+            --ops-filter-color: #1d4ed8;
+            --ops-filter-hover: #d2e1ff;
+        }
+
+        .ops-filter-btn[data-status-filter="failure"] {
+            --ops-filter-bg: #fde4e4;
+            --ops-filter-border: #f5a3a3;
+            --ops-filter-color: #991b1b;
+            --ops-filter-hover: #fbd2d2;
+        }
+
+        .ops-filter-btn[data-status-filter="unknown"] {
+            --ops-filter-bg: #e8edf4;
+            --ops-filter-border: #b8c4d4;
+            --ops-filter-color: #475569;
+            --ops-filter-hover: #dde5ef;
+        }
+
         .ops-filter-btn[aria-pressed="true"] {
-            --ih-btn-bg: var(--ih-primary);
-            --ih-btn-border: var(--ih-primary);
-            --ih-btn-color: #ffffff;
-            --ih-btn-hover: #1d4ed8;
+            box-shadow: inset 0 0 0 2px var(--ops-filter-color, var(--ih-primary));
         }
 
         .ops-search {
@@ -244,13 +280,6 @@
             font-weight: 800;
         }
 
-        .ops-env-subtitle {
-            margin: 0.15rem 0 0;
-            color: var(--ih-muted);
-            font-size: 0.8125rem;
-            font-weight: 600;
-        }
-
         .ops-deploy-summary {
             display: grid;
             gap: 0.35rem;
@@ -266,14 +295,6 @@
             color: var(--ih-text);
         }
 
-        .ih-summary-pill {
-            min-height: 2rem;
-            border-color: rgba(148, 163, 184, 0.28);
-            background: rgba(255, 255, 255, 0.82);
-            color: var(--ih-muted-strong);
-            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-        }
-
         .ih-table-wrap {
             border-color: rgba(148, 163, 184, 0.24);
             border-radius: 8px;
@@ -281,8 +302,12 @@
         }
 
         .ih-table {
-            min-width: 1080px;
+            min-width: var(--ops-env-table-min-width, 1240px);
             font-size: 0.78rem;
+        }
+
+        .ih-status-table {
+            table-layout: fixed;
         }
 
         .ih-table th {
@@ -440,7 +465,8 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 0.35rem;
-            min-width: 12rem;
+            min-width: 0;
+            width: 100%;
             max-width: 16rem;
             margin-inline: auto;
         }
@@ -762,8 +788,8 @@
             <div class="ops-header-grid">
                 <div class="ih-dashboard-header__top">
                     <div>
-                        <p class="ih-kicker">CI/CD operations</p>
-                        <h1 class="ih-title">STAR - Deployments status</h1>
+                        <p class="ih-kicker">STAR</p>
+                        <h1 class="ih-title">Deployments status</h1>
                     </div>
                     <div class="ih-dashboard-header__meta">
                         <span>Deployments <strong id="deployment-age"></strong></span>
@@ -865,6 +891,19 @@
         status: 'all',
         query: ''
     };
+    const environmentTableColumns = [
+        { key: 'server', label: 'Server', width: '13%' },
+        {
+            key: 'release',
+            label: 'Release <span class="ih-tooltip" tabindex="0" data-ih-tooltip="Polaris version might differ due to release cut or unchanged STAR sources.">i</span>',
+            width: '17%'
+        },
+        { key: 'runtime', label: 'Runtime', width: '13%' },
+        { key: 'database', label: 'Database', width: '12%' },
+        { key: 'started', label: 'Started (GMT)', width: '13%' },
+        { key: 'progress', label: 'Progress', width: '14.5%' },
+        { key: 'jobs', label: 'Jobs', width: '17.5%' }
+    ];
 
     const environments = [
         {
@@ -1052,8 +1091,8 @@
                     ${[
                         ['all', 'All'],
                         ['failure', 'Failure'],
-                        ['building', 'Building'],
                         ['partial', 'Partial'],
+                        ['building', 'Building'],
                         ['unknown', 'Unknown'],
                         ['success', 'Success']
                     ].map(([value, label]) => `
@@ -1076,13 +1115,6 @@
             filters.query = event.target.value;
             renderEnvironments();
         });
-    }
-
-    function statusBadge(text) {
-        const cls = text.toLowerCase();
-        return `<span class="ih-status ih-status--${cls} ih-status--icon-only" data-ih-tooltip="${text}" tabindex="0" aria-label="${text}">
-            <span class="ih-status-icon ih-status-icon--${cls}" aria-hidden="true"></span>
-        </span>`;
     }
 
     function statusIcon(status, label = statusLabel(status)) {
@@ -1310,26 +1342,22 @@
         `).join('');
     }
 
-    function envHeader(env, visibleServers = env.servers) {
-        const status = worstStatus(env.servers.map(server => server.status));
-        const activeJobs = env.servers.flatMap(server => jobsFor(server)).filter(job => job.status !== 'unknown').length;
-        const blocked = env.servers.filter(server => ['failure', 'partial'].includes(server.status)).length;
-        const serverCount = visibleServers.length === env.servers.length
-            ? `<span class="ih-summary-pill"><strong>${env.servers.length}</strong> servers</span>`
-            : `<span class="ih-summary-pill"><strong>${visibleServers.length}</strong> shown</span><span class="ih-summary-pill"><strong>${env.servers.length}</strong> servers</span>`;
+    function envHeader(env) {
         return `<div class="ih-env-header">
-            <div class="ih-env-header__title">
-                <div>
-                    <h2 class="ih-heading">${env.name} environment</h2>
-                    <p class="ops-env-subtitle">${blocked ? `${blocked} server${blocked === 1 ? '' : 's'} need review` : 'All monitored servers are green'}</p>
-                </div>
-                ${statusBadge(statusLabel(status))}
-            </div>
-            <div class="ih-env-header__meta">
-                ${serverCount}
-                <span class="ih-summary-pill"><strong>${activeJobs}</strong> active jobs</span>
-            </div>
+            <h2 class="ih-heading">${env.name} environment</h2>
         </div>`;
+    }
+
+    function environmentTableColgroup() {
+        return `<colgroup>
+            ${environmentTableColumns.map(column => `<col data-column="${column.key}" style="width: ${column.width};">`).join('')}
+        </colgroup>`;
+    }
+
+    function environmentTableHeader() {
+        return `<tr>
+            ${environmentTableColumns.map(column => `<th scope="col">${column.label}</th>`).join('')}
+        </tr>`;
     }
 
     function renderEnvironments() {
@@ -1337,25 +1365,18 @@
             const visibleServers = env.servers.filter(filterMatches);
             if (visibleServers.length === 0) {
                 return `<section class="ih-section">
-                    ${envHeader(env, visibleServers)}
+                    ${envHeader(env)}
                     <div class="ops-empty">No ${env.name} servers match the current filter.</div>
                 </section>`;
             }
             return `<section class="ih-section">
-                ${envHeader(env, visibleServers)}
+                ${envHeader(env)}
                 <div>
                     <div class="ih-table-wrap" tabindex="0" aria-label="${env.name} server deployment table">
                         <table class="ih-table ih-table--dense ih-status-table">
+                            ${environmentTableColgroup()}
                             <thead>
-                                <tr>
-                                    <th>Server</th>
-                                    <th>Release <span class="ih-tooltip" tabindex="0" data-ih-tooltip="Polaris version might differ due to release cut or unchanged STAR sources.">i</span></th>
-                                    <th>Runtime</th>
-                                    <th>Database</th>
-                                    <th>Started (GMT)</th>
-                                    <th>Progress</th>
-                                    <th>Jobs</th>
-                                </tr>
+                                ${environmentTableHeader()}
                             </thead>
                             <tbody>
                                 ${visibleServers.map(server => `
